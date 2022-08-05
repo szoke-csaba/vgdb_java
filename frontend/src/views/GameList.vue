@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-link to="/games/add" class="btn btn-primary mb-3">Add</router-link>
+    <router-link :to="{ name: 'add-game' }" class="btn btn-primary mb-3">Add</router-link>
     <table class="table">
       <thead>
         <tr>
@@ -16,7 +16,7 @@
           <td>{{game.created}}</td>
           <td>{{game.updated}}</td>
           <td>
-            <router-link :to="'/games/' + game.id" class="btn btn-primary">Edit</router-link>
+            <router-link :to="{ name: 'update-game', params: { id: game.id } }" class="btn btn-primary">Edit</router-link>
           </td>
           <td>
             <button @click="deleteGame(game.id)" class="btn btn-danger">Delete</button>
@@ -28,10 +28,9 @@
 </template>
 
 <script>
-import GameDataService from '../services/GameDataService'
+import GameDataService from '@/services/GameDataService'
 
 export default {
-  name: 'game-list',
   data() {
     return {
       games: []

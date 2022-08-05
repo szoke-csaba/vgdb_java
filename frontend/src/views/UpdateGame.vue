@@ -1,7 +1,10 @@
 <template>
   <div v-if="currentGame">
-    <div class="alert alert-success" role="alert" v-if="message">
-      {{ message }}
+    <div v-if="errors.length" class="alert alert-danger">
+      <p class="m-0" v-for="(error, index) in errors" v-bind:key="index">{{ error }}</p>
+    </div>
+    <div class="alert alert-success" role="alert" v-if="success">
+      {{ success }}
     </div>
     <div class="mb-3">
       <label for="title" class="form-label">Title</label>
@@ -14,14 +17,14 @@
 </template>
 
 <script>
-import GameDataService from '../services/GameDataService'
+import GameDataService from '@/services/GameDataService'
 
 export default {
-  name: 'edit-game',
   data() {
     return {
       currentGame: null,
-      message: ''
+      success: '',
+      errors: []
     }
   },
   methods: {
@@ -35,9 +38,18 @@ export default {
           })
     },
     updateGame() {
+      this.success = ''
+      this.errors = []
+
+      if (this.currentGame.title === '') {
+        this.errors.push('※ Title field is required.')
+
+        return;
+      }
+
       GameDataService.update(this.currentGame.id, this.currentGame)
           .then(() => {
-            this.message = 'The game was updated successfully!'
+            this.success = 'The game was updated successfully!'
           })
           .catch(e => {
             alert(e)

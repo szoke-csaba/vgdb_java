@@ -1,27 +1,25 @@
-import {
-    createRouter, createWebHistory
-} from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
     {
         path: '/',
-        name: 'home-page',
-        component: () => import('./components/HomePage')
+        name: 'home',
+        component: () => import('@/views/HomePage')
     },
     {
         path: '/games',
         name: 'games',
-        component: () => import('./components/GameList')
+        component: () => import('@/views/GameList')
     },
     {
         path: '/games/:id',
         name: 'update-game',
-        component: () => import('./components/UpdateGame')
+        component: () => import('@/views/UpdateGame')
     },
     {
         path: '/games/add',
         name: 'add-game',
-        component: () => import('./components/AddGame')
+        component: () => import('@/views/AddGame')
     },
 ]
 
