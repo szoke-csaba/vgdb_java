@@ -11,7 +11,19 @@
             <router-link class="nav-link" :to="{ name: 'games' }">Games</router-link>
           </li>
         </ul>
+        <div class="theme-switch">
+          <input type="checkbox" id="theme-switch" class="d-none">
+          <font-awesome-icon class="d-none theme-switcher" id="light-icon" icon="fa-solid fa-sun" />
+          <font-awesome-icon class="d-none theme-switcher" id="dark-icon" icon="fa-solid fa-moon" />
+        </div>
       </div>
     </div>
   </nav>
 </template>
+
+<style lang="scss">
+  .theme-switcher {
+    cursor: pointer;
+    height: 30px;
+  }
+</style>
