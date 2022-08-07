@@ -1,6 +1,7 @@
 package io.github.szokecsaba.vgdb.game;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +32,7 @@ public class GameService {
     public ResponseEntity<?> create(Game game) {
         gameRepository.save(game);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     public ResponseEntity<?> update(Game gameUpdated, long id) {
