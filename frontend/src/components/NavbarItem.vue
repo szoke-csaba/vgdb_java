@@ -11,15 +11,58 @@
             <router-link class="nav-link" :to="{ name: 'games' }">Games</router-link>
           </li>
         </ul>
-        <div class="theme-switch">
-          <input type="checkbox" id="theme-switch" class="d-none">
-          <font-awesome-icon class="d-none theme-switcher" id="light-icon" icon="fa-solid fa-sun" />
-          <font-awesome-icon class="d-none theme-switcher" id="dark-icon" icon="fa-solid fa-moon" />
+        <div class="navbar-nav ml-auto gap-3">
+          <div v-if="!currentUser" class="d-flex">
+            <li class="nav-item">
+              <router-link :to="{ name: 'register' }" class="nav-link">
+                <font-awesome-icon icon="user-plus" /> Register
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link :to="{ name: 'login' }" class="nav-link">
+                <font-awesome-icon icon="sign-in-alt" /> Login
+              </router-link>
+            </li>
+          </div>
+          <div v-if="currentUser" class="d-flex" title="Profile">
+            <li class="nav-item me-2">
+              <router-link to="/profile" class="nav-link">
+                <font-awesome-icon icon="user" />
+                {{ currentUser.email }}
+              </router-link>
+            </li>
+            <li class="nav-item" role="button">
+              <a class="nav-link" @click.prevent="logOut">
+                <font-awesome-icon icon="sign-out-alt" /> LogOut
+              </a>
+            </li>
+          </div>
+          <div class="theme-switch d-flex align-items-center" title="Switch theme">
+            <input type="checkbox" id="theme-switch" class="d-none">
+            <font-awesome-icon class="d-none theme-switcher" id="light-icon" icon="fa-solid fa-sun" />
+            <font-awesome-icon class="d-none theme-switcher" id="dark-icon" icon="fa-solid fa-moon" />
+          </div>
         </div>
       </div>
     </div>
   </nav>
 </template>
+
+<script>
+  export default {
+    computed: {
+      currentUser() {
+        return this.$store.state.auth.user
+      },
+    },
+    methods: {
+      logOut() {
+        this.$store.dispatch('auth/logout')
+        this.$router.push({name: 'login'})
+      }
+    }
+  }
+</script>
 
 <style lang="scss">
   .theme-switcher {

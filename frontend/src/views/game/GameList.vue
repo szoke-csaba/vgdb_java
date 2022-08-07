@@ -1,13 +1,18 @@
 <template>
   <div>
-    <router-link :to="{ name: 'add-game' }" class="btn btn-primary mb-3">Add</router-link>
+    <h1 class="mb-3">Games</h1>
+    <router-link :to="{ name: 'add-game' }" class="btn btn-primary mb-3" v-if="isAdmin">
+      <font-awesome-icon icon="fa-solid fa-plus" />
+    </router-link>
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">Title</th>
+          <th scope="col" width="40%">Title</th>
           <th scope="col">Created</th>
           <th scope="col">Updated</th>
-          <th scope="col" colspan="2">Actions</th>
+          <th scope="col" colspan="2" v-if="isAdmin" class="text-center">
+            Actions
+          </th>
         </tr>
       </thead>
       <tbody v-for="(game, index) in games" :key="index">
@@ -15,11 +20,15 @@
           <td>{{game.title}}</td>
           <td>{{game.created}}</td>
           <td>{{game.updated}}</td>
-          <td>
-            <router-link :to="{ name: 'update-game', params: { id: game.id } }" class="btn btn-primary">Edit</router-link>
+          <td v-if="isAdmin" class="text-end">
+            <router-link :to="{ name: 'update-game', params: { id: game.id } }" class="btn btn-primary">
+              <font-awesome-icon icon="fa-solid fa-pen" />
+            </router-link>
           </td>
-          <td>
-            <button @click="deleteGame(game.id)" class="btn btn-danger">Delete</button>
+          <td v-if="isAdmin">
+            <button @click="deleteGame(game.id)" class="btn btn-danger">
+              <font-awesome-icon icon="fa-solid fa-trash" />
+            </button>
           </td>
         </tr>
       </tbody>
@@ -28,7 +37,7 @@
 </template>
 
 <script>
-import GameDataService from '@/services/GameDataService'
+import Game from '@/services/game'
 
 export default {
   data() {
@@ -38,7 +47,7 @@ export default {
   },
   methods: {
     retrieveGames() {
-      GameDataService.getAll()
+      Game.getAll()
           .then(response => {
             this.games = response.data
           })
@@ -47,7 +56,7 @@ export default {
           })
     },
     deleteGame(id) {
-      GameDataService.delete(id)
+      Game.delete(id)
           .then(() => {
             const index = this.games.findIndex(post => post.id === id)
             if (~index)
@@ -57,6 +66,14 @@ export default {
             alert(e)
           })
     },
+  },
+  computed: {
+    currentUser() {
+      return this.$store.state.auth.user
+    },
+    isAdmin() {
+      return this.$store.getters['auth/isAdmin']
+    }
   },
   mounted() {
     this.retrieveGames()

@@ -14,3 +14,9 @@ export default {
   }
 }
 </script>
+
+<style>
+  .error-feedback {
+    color: #dc3545;
+  }
+</style>
