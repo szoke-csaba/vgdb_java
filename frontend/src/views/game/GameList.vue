@@ -1,38 +1,27 @@
 <template>
   <div>
     <h1 class="mb-3">Games</h1>
-    <router-link :to="{ name: 'add-game' }" class="btn btn-primary mb-3" v-if="isAdmin">
+    <router-link :to="{ name: 'add-game' }" class="btn btn-primary mb-3" v-if="isAdmin" title="Add">
       <font-awesome-icon icon="fa-solid fa-plus" />
     </router-link>
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col" width="40%">Title</th>
-          <th scope="col">Created</th>
-          <th scope="col">Updated</th>
-          <th scope="col" colspan="2" v-if="isAdmin" class="text-center">
-            Actions
-          </th>
-        </tr>
-      </thead>
-      <tbody v-for="(game, index) in games" :key="index">
-        <tr>
-          <td>{{game.title}}</td>
-          <td>{{game.created}}</td>
-          <td>{{game.updated}}</td>
-          <td v-if="isAdmin" class="text-end">
-            <router-link :to="{ name: 'update-game', params: { id: game.id } }" class="btn btn-primary">
-              <font-awesome-icon icon="fa-solid fa-pen" />
-            </router-link>
-          </td>
-          <td v-if="isAdmin">
-            <button @click="deleteGame(game.id)" class="btn btn-danger">
-              <font-awesome-icon icon="fa-solid fa-trash" />
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="row">
+      <div class="col-sm-3" v-for="(game, index) in games" :key="index">
+        <div class="card mb-4">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930" class="card-img-top" :alt="game.title + ' thumbnail'">
+          <div class="card-body">
+            <h5 class="card-title">{{ game.title }}</h5>
+            <div v-if="isAdmin" class="text-end">
+              <router-link :to="{ name: 'update-game', params: { id: game.id } }" class="btn btn-primary" title="Edit">
+                <font-awesome-icon icon="fa-solid fa-pen" />
+              </router-link>
+              <button @click="deleteGame(game.id)" class="btn btn-danger ms-2" title="Delete">
+                <font-awesome-icon icon="fa-solid fa-trash" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 

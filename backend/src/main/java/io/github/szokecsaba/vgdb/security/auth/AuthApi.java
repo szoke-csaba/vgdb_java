@@ -1,6 +1,5 @@
-package io.github.szokecsaba.vgdb.user.auth;
+package io.github.szokecsaba.vgdb.security.auth;
 
-import io.github.szokecsaba.vgdb.security.JwtTokenUtil;
 import io.github.szokecsaba.vgdb.user.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

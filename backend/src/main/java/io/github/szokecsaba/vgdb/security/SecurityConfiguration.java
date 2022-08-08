@@ -3,7 +3,6 @@ package io.github.szokecsaba.vgdb.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,14 +31,7 @@ public class SecurityConfiguration {
         http
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().authorizeRequests()
-                    .mvcMatchers(HttpMethod.POST, "/games/**").hasRole("ADMIN")
-                    .mvcMatchers(HttpMethod.PUT, "/games/**").hasRole("ADMIN")
-                    .mvcMatchers(HttpMethod.DELETE, "/games/**").hasRole("ADMIN")
-                    .mvcMatchers(HttpMethod.GET, "/games").permitAll()
-                .and().authorizeRequests()
-                    .antMatchers("/login").permitAll()
-                .anyRequest().permitAll()
+                .and().authorizeRequests().anyRequest().permitAll()
                 .and().exceptionHandling()
                 .authenticationEntryPoint(
                         (request, response, ex) -> response.sendError(
@@ -52,11 +44,6 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-        return authConfig.getAuthenticationManager();
-    }
-
-    @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
@@ -64,9 +51,14 @@ public class SecurityConfiguration {
                 registry.addMapping("/**")
                         .allowedMethods("*")
                         .allowedHeaders("*")
-                        .allowedOrigins("*");
+                        .allowedOrigins("http://localhost:8080");
             }
         };
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+        return authConfig.getAuthenticationManager();
     }
 
     @Bean

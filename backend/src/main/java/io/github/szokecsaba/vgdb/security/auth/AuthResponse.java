@@ -1,4 +1,4 @@
-package io.github.szokecsaba.vgdb.user.auth;
+package io.github.szokecsaba.vgdb.security.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

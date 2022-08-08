@@ -1,4 +1,4 @@
-package io.github.szokecsaba.vgdb.security;
+package io.github.szokecsaba.vgdb.security.auth;
 
 import io.github.szokecsaba.vgdb.user.User;
 import io.jsonwebtoken.Claims;
