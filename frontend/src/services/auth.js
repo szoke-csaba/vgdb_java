@@ -1,30 +1,29 @@
-import axios from 'axios'
-
-const API_URL = 'http://localhost:8081/api'
+import http from '@/http-common'
+import { Buffer } from 'buffer'
 
 class Auth {
+    register(user) {
+        return http.post('/register', {
+            email: user.email,
+            password: user.password
+        })
+    }
     login(user) {
-        return axios
-            .post(API_URL + '/login', {
-                email: user.email,
-                password: user.password
+        return http
+            .post('/login', {}, {
+                headers: {
+                    'Authorization': 'Basic ' + Buffer.from(user.email + ':' + user.password).toString('base64')
+                },
+                withCredentials: true
             })
             .then(response => {
-                if (response.data.accessToken) {
-                    localStorage.setItem('user', JSON.stringify(response.data))
-                }
+                localStorage.setItem('user', JSON.stringify(response.data))
 
                 return response.data
             })
     }
     logout() {
         localStorage.removeItem('user')
-    }
-    register(user) {
-        return axios.post(API_URL + '/register', {
-            email: user.email,
-            password: user.password
-        })
     }
 }
 

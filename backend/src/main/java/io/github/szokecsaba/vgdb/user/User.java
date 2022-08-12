@@ -21,8 +21,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User implements UserDetails {
-    private final static String ROLE_PREFIX = "ROLE_";
-
     @Id
     @GeneratedValue
     private long id;
@@ -35,14 +33,14 @@ public class User implements UserDetails {
     @NotBlank
     private String password;
 
-    private String role = Role.USER.toString();
+    private String role = "ROLE_USER";
 
     @CreationTimestamp
     private LocalDateTime created;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(ROLE_PREFIX + role));
+        return List.of(new SimpleGrantedAuthority(role));
     }
 
     @Override

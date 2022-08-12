@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @RestController
 public class UserController {
@@ -20,5 +21,10 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody User user) {
         return userService.register(user);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> getUserDetailsAfterLogin(Principal user) {
+        return userService.login(user.getName());
     }
 }

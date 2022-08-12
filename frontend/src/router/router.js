@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {createRouter, createWebHistory} from 'vue-router'
 
 const routes = [
     {
@@ -14,27 +14,32 @@ const routes = [
     {
         path: '/games/:id',
         name: 'update-game',
-        component: () => import('@/views/game/UpdateGame')
+        component: () => import('@/views/game/UpdateGame'),
+        meta: { requiresAdmin: true }
     },
     {
         path: '/games/add',
         name: 'add-game',
-        component: () => import('@/views/game/AddGame')
+        component: () => import('@/views/game/AddGame'),
+        meta: { requiresAdmin: true }
     },
     {
         path: '/login',
         name: 'login',
-        component: () => import('@/views/auth/Login')
+        component: () => import('@/views/auth/Login'),
+        meta: { authToHome: true }
     },
     {
         path: '/register',
         name: 'register',
-        component: () => import('@/views/auth/Register')
+        component: () => import('@/views/auth/Register'),
+        meta: { authToHome: true }
     },
     {
         path: '/profile',
         name: 'profile',
-        component: () => import('@/views/auth/Profile')
+        component: () => import('@/views/auth/Profile'),
+        meta: { requiresAuth: true }
     },
 ]
 
@@ -44,12 +49,14 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    const publicPages = ['/', '/login', '/register', '/games']
-    const authRequired = !publicPages.includes(to.path)
-    const loggedIn = localStorage.getItem('user')
+    const user = JSON.parse(localStorage.getItem('user'))
 
-    if (authRequired && !loggedIn) {
+    if (to.meta.requiresAuth && !user) {
         next({ name: 'login' })
+    } else if (to.meta.authToHome && user) {
+        next({ name: 'home' })
+    } else if (to.meta.requiresAdmin && (!user || user.role !== 'ROLE_ADMIN')) {
+        next({ name: 'home' })
     } else {
         next()
     }

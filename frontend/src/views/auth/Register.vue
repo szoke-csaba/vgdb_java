@@ -69,11 +69,6 @@
         return this.$store.state.auth.status.loggedIn
       },
     },
-    mounted() {
-      if (this.loggedIn) {
-        this.$router.push({name: 'profile'})
-      }
-    },
     methods: {
       handleRegister(user) {
         this.message = ''

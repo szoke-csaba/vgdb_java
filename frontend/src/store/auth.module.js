@@ -56,7 +56,6 @@ export const Auth = {
         logout(state) {
             state.status.loggedIn = false
             state.user = null
-            localStorage.removeItem(user)
         },
         registerSuccess(state) {
             state.status.loggedIn = false
@@ -67,7 +66,7 @@ export const Auth = {
     },
     getters: {
         isAdmin (state) {
-            return state.user && state.user.role === 'ADMIN'
+            return state.user && state.user.role === 'ROLE_ADMIN'
         }
     }
 }

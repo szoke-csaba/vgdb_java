@@ -1,13 +1,9 @@
 <template>
-  <div class="container">
+  <div class="container" v-if="currentUser">
     <h1 class="mb-5">{{ currentUser.email }}'s profile</h1>
     <p>
       <strong>Token:</strong>
-      {{ currentUser.accessToken.substring(0, 20) }} ... {{ currentUser.accessToken.substr(currentUser.accessToken.length - 20) }}
-    </p>
-    <p>
-      <strong>Id:</strong>
-      {{ currentUser.id }}
+      {{ currentUser.token.substring(0, 20) }} ... {{ currentUser.token.substr(currentUser.token.length - 20) }}
     </p>
     <p>
       <strong>Email:</strong>

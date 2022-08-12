@@ -88,10 +88,6 @@ export default {
     },
   },
   mounted() {
-    if (!this.$store.getters['auth/isAdmin']) {
-      this.$router.push({name: 'home'})
-    }
-
     this.getGame(this.$route.params.id)
   }
 }

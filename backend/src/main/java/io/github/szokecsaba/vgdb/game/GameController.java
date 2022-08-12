@@ -2,7 +2,7 @@ package io.github.szokecsaba.vgdb.game;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,25 +23,25 @@ public class GameController {
     }
 
     @GetMapping("/{id}")
-    @Secured("ROLE_ADMIN")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
     public ResponseEntity<?> get(@PathVariable long id) {
         return gameService.get(id);
     }
 
     @PostMapping
-    @Secured("ROLE_ADMIN")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
     public ResponseEntity<?> create(@Valid @RequestBody Game game) {
         return gameService.create(game);
     }
 
     @PutMapping("/{id}")
-    @Secured("ROLE_ADMIN")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
     public ResponseEntity<?> update(@Valid @RequestBody Game game, @PathVariable long id) {
         return gameService.update(game, id);
     }
 
     @DeleteMapping("/{id}")
-    @Secured("ROLE_ADMIN")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
     public ResponseEntity<?> delete(@PathVariable long id) {
         return gameService.delete(id);
     }

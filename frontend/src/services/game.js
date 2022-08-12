@@ -7,7 +7,7 @@ class Game {
     }
 
     get(id) {
-        return http.get(`/games/${id}`)
+        return http.get(`/games/${id}`, { headers: authHeader() })
     }
 
     create(data) {
