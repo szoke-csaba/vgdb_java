@@ -1,2 +1,6 @@
-@import "@/assets/scss/dark-theme.scss";
-@import "~bootstrap/scss/bootstrap";
+// noinspection CssInvalidAtRule
+@tailwind base;
+// noinspection CssInvalidAtRule
+@tailwind components;
+// noinspection CssInvalidAtRule
+@tailwind utilities;

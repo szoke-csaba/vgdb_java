@@ -1,32 +1,38 @@
 <template>
-  <div class="d-flex justify-content-center">
-    <div class="col-md-4">
-      <div class="card card-container p-4">
-        <h1 class="mb-3 text-center">Register</h1>
-        <Form @submit="handleRegister" :validation-schema="schema">
-          <div>
-            <div class="form-group mb-3">
-              <label for="email" class="form-label">Email</label>
-              <Field name="email" type="email" class="form-control" />
-              <ErrorMessage name="email" class="error-feedback" />
-            </div>
-            <div class="form-group mb-3">
-              <label for="password" class="form-label">Password</label>
-              <Field name="password" type="password" class="form-control" />
-              <ErrorMessage name="password" class="error-feedback" />
-            </div>
-            <div class="form-group">
-              <button class="btn btn-primary btn-block" :disabled="loading">
-                <span v-show="loading" class="spinner-border spinner-border-sm"></span>
-                Register
-              </button>
-            </div>
-          </div>
-        </Form>
-        <div class="form-group">
-          <div v-if="message" class="alert alert-danger mt-3 mb-0">
-            {{ message }}
-          </div>
+  <div class="text-sm breadcrumbs mb-5">
+    <ul>
+      <li><router-link :to="{ name: 'home' }">Home</router-link></li>
+      <li><router-link :to="{ name: 'register' }">Register</router-link></li>
+    </ul>
+  </div>
+  <div class="card flex-shrink-0 max-w-sm shadow-2xl bg-base-100 mx-auto">
+    <div class="card-body">
+      <h1 class="card-title">Register</h1>
+      <Form @submit="handleRegister" :validation-schema="schema">
+        <div class="form-control">
+          <label for="email" class="label">
+            <span class="label-text">Email</span>
+          </label>
+          <Field id="email" name="email" type="email" class="input input-bordered" />
+          <ErrorMessage name="email" class="error-feedback text-red-400" />
+        </div>
+        <div class="form-control">
+          <label for="password" class="label">
+            <span class="label-text">Password</span>
+          </label>
+          <Field id="password" name="password" type="password" class="input input-bordered" />
+          <ErrorMessage name="password" class="error-feedback text-red-400" />
+        </div>
+        <div class="form-control mt-6">
+          <button class="btn btn-primary" :class="{ loading: loading }" :disabled="loading">Register</button>
+        </div>
+      </Form>
+      <div class="alert alert-error shadow-lg" v-if="message">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>{{ message }}</span>
         </div>
       </div>
     </div>

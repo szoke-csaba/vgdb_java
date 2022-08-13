@@ -1,26 +1,33 @@
 <template>
-  <div class="d-flex justify-content-center">
-    <div class="col-md-4">
-      <div class="card card-container p-4">
-        <h1 class="mb-3 text-center">Add game</h1>
-        <Form @submit="saveGame" :validation-schema="schema">
-          <div class="form-group mb-3">
-            <label for="title" class="form-label">Title</label>
-            <Field name="title" type="title" class="form-control" />
-            <ErrorMessage name="title" class="error-feedback" />
-          </div>
-          <div class="form-group">
-            <button class="btn btn-primary btn-block" :disabled="loading">
-              <span v-show="loading" class="spinner-border spinner-border-sm"></span>
-              <span>Add</span>
-            </button>
-          </div>
-          <div class="form-group">
-            <div v-if="message" class="alert alert-danger mt-3 mb-0" role="alert">
-              {{ message }}
-            </div>
-          </div>
-        </Form>
+  <div class="text-sm breadcrumbs mb-5">
+    <ul>
+      <li><router-link :to="{ name: 'home' }">Home</router-link></li>
+      <li><router-link :to="{ name: 'games' }">Games</router-link></li>
+      <li><router-link :to="{ name: 'add-game' }">Add game</router-link></li>
+    </ul>
+  </div>
+  <div class="card flex-shrink-0 max-w-sm shadow-2xl bg-base-100 mx-auto">
+    <div class="card-body">
+      <h1 class="card-title">Add game</h1>
+      <Form @submit="saveGame" :validation-schema="schema">
+        <div class="form-control">
+          <label for="title" class="label">
+            <span class="label-text">Title</span>
+          </label>
+          <Field id="title" name="title" type="text" class="input input-bordered" />
+          <ErrorMessage name="title" class="error-feedback text-red-400" />
+        </div>
+        <div class="form-control mt-6">
+          <button class="btn btn-primary" :class="{ loading: loading }" :disabled="loading">Add</button>
+        </div>
+      </Form>
+      <div class="alert alert-error shadow-lg" v-if="message">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>{{ message }}</span>
+        </div>
       </div>
     </div>
   </div>

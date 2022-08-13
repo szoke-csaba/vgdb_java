@@ -1,36 +1,38 @@
 window.onload = function() {
-    const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : 'dark'
+    const moonTheme = 'dark'
+    const sunTheme = 'cupcake'
+    const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : moonTheme
     const themeSwitch = document.getElementById('theme-switch')
-    const lightIcon = document.getElementById('light-icon')
-    const darkIcon = document.getElementById('dark-icon')
+    const sunIcon = document.getElementById('sun-icon')
+    const moonIcon = document.getElementById('moon-icon')
 
-    lightIcon.addEventListener('click', toggleSwitch, false)
-    darkIcon.addEventListener('click', toggleSwitch, false)
+    setDefaultTheme()
 
-    if (currentTheme) {
-        document.documentElement.setAttribute('data-theme', currentTheme)
-
-        if (currentTheme === 'dark') {
-            themeSwitch.checked = true
-            lightIcon.classList.remove('d-none')
-        } else {
-            darkIcon.classList.remove('d-none')
-        }
-    }
+    sunIcon.addEventListener('click', toggleSwitch, false)
+    moonIcon.addEventListener('click', toggleSwitch, false)
 
     function toggleSwitch() {
-        themeSwitch.checked = !themeSwitch.checked
-
-        if (themeSwitch.checked) {
-            document.documentElement.setAttribute('data-theme', 'dark')
-            localStorage.setItem('theme', 'dark')
-            lightIcon.classList.remove('d-none')
-            darkIcon.classList.add('d-none')
+        if (!themeSwitch.classList.contains('checked')) {
+            document.documentElement.setAttribute('data-theme', moonTheme)
+            localStorage.setItem('theme', moonTheme)
         } else {
-            document.documentElement.setAttribute('data-theme', 'light')
-            localStorage.setItem('theme', 'light')
-            darkIcon.classList.remove('d-none')
-            lightIcon.classList.add('d-none')
+            document.documentElement.setAttribute('data-theme', sunTheme)
+            localStorage.setItem('theme', sunTheme)
+        }
+
+        themeSwitch.classList.toggle('checked')
+    }
+
+    function setDefaultTheme() {
+        document.documentElement.setAttribute('data-theme', currentTheme)
+
+        if (currentTheme === moonTheme) {
+            themeSwitch.classList.add('checked')
+            moonIcon.classList.add('swap-on')
+            sunIcon.classList.add('swap-off')
+        } else {
+            moonIcon.classList.add('swap-off')
+            sunIcon.classList.add('swap-on')
         }
     }
 }

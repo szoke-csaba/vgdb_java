@@ -1,22 +1,16 @@
 <template>
   <NavbarItem />
-  <div class="container mt-5">
+  <div class="container mx-auto py-8 px-4">
     <router-view />
   </div>
 </template>
 
 <script>
-import NavbarItem from '@/components/NavbarItem'
+  import NavbarItem from '@/components/NavbarItem'
 
-export default {
-  components: {
-    NavbarItem
+  export default {
+    components: {
+      NavbarItem
+    }
   }
-}
 </script>
-
-<style>
-  .error-feedback {
-    color: #dc3545;
-  }
-</style>

@@ -1,7 +1,5 @@
 <template>
-  <h1>
-    <font-awesome-icon icon="fa-solid fa-house" />
-  </h1>
+  <font-awesome-icon icon="fa-solid fa-house" />
 </template>
 
 <script>

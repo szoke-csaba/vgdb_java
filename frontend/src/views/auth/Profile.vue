@@ -1,6 +1,12 @@
 <template>
   <div class="container" v-if="currentUser">
-    <h1 class="mb-5">{{ currentUser.email }}'s profile</h1>
+    <div class="text-sm breadcrumbs mb-5">
+      <ul>
+        <li><router-link :to="{ name: 'home' }">Home</router-link></li>
+        <li><router-link :to="{ name: 'profile' }">Profile</router-link></li>
+      </ul>
+    </div>
+    <h1 class="mb-5 text-3xl">{{ currentUser.email }}'s profile</h1>
     <p>
       <strong>Token:</strong>
       {{ currentUser.token.substring(0, 20) }} ... {{ currentUser.token.substr(currentUser.token.length - 20) }}
