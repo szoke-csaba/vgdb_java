@@ -27,7 +27,7 @@ class UserRepositoryTest {
         assertNotNull(expected.get().getEmail());
         assertNotNull(expected.get().getPassword());
         assertNotNull(expected.get().getCreated());
-        assertEquals(Role.USER.toString(), expected.get().getRole());
+        assertEquals("ROLE_USER", expected.get().getRole());
     }
 
     @Test

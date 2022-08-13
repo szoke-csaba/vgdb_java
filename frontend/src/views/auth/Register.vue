@@ -64,11 +64,6 @@
         schema,
       }
     },
-    computed: {
-      loggedIn() {
-        return this.$store.state.auth.status.loggedIn
-      },
-    },
     methods: {
       handleRegister(user) {
         this.message = ''
