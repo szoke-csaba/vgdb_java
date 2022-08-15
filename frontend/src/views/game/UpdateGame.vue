@@ -17,6 +17,35 @@
           <Field id="title" name="title" type="text" class="input input-bordered" v-model="currentGame.title" />
           <ErrorMessage name="title" class="error-feedback text-red-400" />
         </div>
+        <div class="form-control">
+          <label for="tag" class="label">
+            <span class="label-text">Tags</span>
+          </label>
+          <VueMultiselect
+              v-model="selectedTags"
+              id="tag"
+              label="name"
+              track-by="id"
+              placeholder="Type to search"
+              open-direction="bottom"
+              :options="tags"
+              :multiple="true"
+              :searchable="true"
+              :loading="isLoading"
+              :internal-search="false"
+              :clear-on-select="false"
+              :close-on-select="false"
+              :options-limit="100"
+              :limit="10"
+              :limit-text="limitText"
+              :max-height="600"
+              :hide-selected="true"
+              @search-change="asyncFind"
+          >
+            <template #noResult>No tags found.</template>
+            <template #noOptions>No tags found.</template>
+          </VueMultiselect>
+        </div>
         <div class="form-control mt-6">
           <button class="btn btn-primary" :class="{ loading: loading }" :disabled="loading">Update</button>
         </div>
@@ -38,14 +67,17 @@
 
 <script>
 import Game from '@/services/game'
+import Tag from '@/services/tag'
 import { ErrorMessage, Field, Form } from 'vee-validate'
 import * as yup from 'yup'
+import VueMultiselect from 'vue-multiselect'
 
 export default {
   components: {
     Form,
     Field,
     ErrorMessage,
+    VueMultiselect
   },
   data() {
     const schema = yup.object().shape({
@@ -61,13 +93,38 @@ export default {
       success: false,
       message: '',
       schema,
+      selectedTags: [],
+      tags: [],
+      isLoading: false
     }
   },
   methods: {
+    limitText (count) {
+      return `and ${count} other tags`
+    },
+    asyncFind (query) {
+      if (!query) {
+        return
+      }
+
+      this.isLoading = true
+
+      Tag.searchByName(query)
+          .then(response => {
+            this.isLoading = false
+            this.tags = response.data
+        })
+        .catch(e => {
+          this.isLoading = false
+          this.success = false
+          this.message = e
+        })
+    },
     getGame(id) {
       Game.get(id)
           .then(response => {
             this.currentGame = response.data
+            this.selectedTags = this.currentGame.tags
           })
           .catch(e => {
             this.success = false
@@ -78,6 +135,8 @@ export default {
       this.loading = true
       this.success = false
       this.message = ''
+
+      this.currentGame.tags = this.selectedTags
 
       Game.update(this.currentGame.id, this.currentGame)
           .then(() => {

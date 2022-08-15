@@ -54,18 +54,29 @@
               <font-awesome-icon icon="sign-in-alt" /> Login
             </router-link>
           </li>
-          <li v-if="currentUser">
-            <router-link to="/profile">
-              <font-awesome-icon icon="user" />
-              {{ currentUser.email }}
-            </router-link>
-          </li>
-          <li v-if="currentUser">
-            <a @click.prevent="logOut">
-              <font-awesome-icon icon="sign-out-alt" /> Logout
-            </a>
-          </li>
         </ul>
+        <div class="dropdown dropdown-end hidden md:inline-block" v-if="currentUser">
+          <label tabindex="0" class="btn btn-ghost rounded-btn">
+            <div class="avatar">
+              <div class="w-10 rounded-full">
+                <img src="https://placeimg.com/40/40/animals"  alt="user avatar"/>
+              </div>
+            </div>
+          </label>
+          <ul tabindex="0" class="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52 mt-4">
+            <li>
+              <router-link to="/profile">
+                <font-awesome-icon icon="user" />
+                {{ currentUser.email }}
+              </router-link>
+            </li>
+            <li>
+              <a @click.prevent="logOut">
+                <font-awesome-icon icon="sign-out-alt" /> Logout
+              </a>
+            </li>
+          </ul>
+        </div>
         <label class="swap swap-rotate px-4">
           <input id="theme-switch" type="checkbox" />
           <svg id="sun-icon" class="fill-current w-10 h-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
