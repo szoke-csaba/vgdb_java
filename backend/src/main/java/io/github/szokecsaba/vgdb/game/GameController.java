@@ -18,12 +18,12 @@ public class GameController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAll() {
-        return gameService.getAll();
+    public ResponseEntity<?> getAll(@RequestParam(required = false) Integer page,
+                                    @RequestParam(required = false) Integer pageSize) {
+        return gameService.getAll(page, pageSize);
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
     public ResponseEntity<?> get(@PathVariable long id) {
         return gameService.get(id);
     }

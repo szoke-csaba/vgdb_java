@@ -1,0 +1,11 @@
+<template>
+  <div class="card flex-shrink-0 max-w-sm shadow-2xl bg-base-100 mx-auto">
+    <div class="card-body items-center">
+      <h1 class="card-title text-4xl">404</h1>
+      <p class="text-xl mb-3">Page not found</p>
+      <router-link :to="{ name: 'home' }" class="btn btn-primary">
+        Go home
+      </router-link>
+    </div>
+  </div>
+</template>

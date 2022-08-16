@@ -9,19 +9,7 @@ const routes = [
     {
         path: '/games',
         name: 'games',
-        component: () => import('@/views/game/GameList')
-    },
-    {
-        path: '/games/:id',
-        name: 'update-game',
-        component: () => import('@/views/game/UpdateGame'),
-        meta: { requiresAdmin: true }
-    },
-    {
-        path: '/games/add',
-        name: 'add-game',
-        component: () => import('@/views/game/AddGame'),
-        meta: { requiresAdmin: true }
+        component: () => import('@/views/GameList')
     },
     {
         path: '/login',
@@ -41,6 +29,35 @@ const routes = [
         component: () => import('@/views/auth/Profile'),
         meta: { requiresAuth: true }
     },
+    {
+        path: '/admin',
+        name: 'admin-home',
+        component: () => import('@/views/admin/Home'),
+        meta: { requiresAdmin: true, layout: 'admin' }
+    },
+    {
+        path: '/admin/games',
+        name: 'admin-games',
+        component: () => import('@/views/admin/game/GameList'),
+        meta: { requiresAdmin: true, layout: 'admin' }
+    },
+    {
+        path: '/admin/games/:id',
+        name: 'update-game',
+        component: () => import('@/views/admin/game/UpdateGame'),
+        meta: { requiresAdmin: true, layout: 'admin' }
+    },
+    {
+        path: '/admin/games/add',
+        name: 'add-game',
+        component: () => import('@/views/admin/game/AddGame'),
+        meta: { requiresAdmin: true, layout: 'admin' }
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        name: 'not-found',
+        component: () => import('@/views/NotFound')
+    },
 ]
 
 const router = createRouter({
@@ -56,7 +73,7 @@ router.beforeEach((to, from, next) => {
     } else if (to.meta.authToHome && user) {
         next({ name: 'home' })
     } else if (to.meta.requiresAdmin && (!user || user.role !== 'ROLE_ADMIN')) {
-        next({ name: 'home' })
+        next({ name: 'not-found' })
     } else {
         next()
     }

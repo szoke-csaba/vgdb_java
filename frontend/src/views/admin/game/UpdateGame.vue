@@ -1,14 +1,12 @@
 <template>
-  <div class="text-sm breadcrumbs mb-5">
-    <ul>
-      <li><router-link :to="{ name: 'home' }">Home</router-link></li>
-      <li><router-link :to="{ name: 'games' }">Games</router-link></li>
-      <li><router-link :to="{ name: 'update-game' }">Update game</router-link></li>
-    </ul>
-  </div>
-  <div class="card flex-shrink-0 max-w-sm shadow-2xl bg-base-100 mx-auto" v-if="currentGame">
+  <div class="card flex-shrink-0 max-w-lg shadow-2xl bg-base-100 mx-auto" v-if="currentGame">
+    <div class="p-8 pb-0 flex items-center">
+      <router-link :to="{ name: 'admin-games' }" class="text-4xl">
+        <font-awesome-icon icon="fa-solid fa-arrow-left" />
+      </router-link>
+      <h1 class="text-4xl pl-5">Update game</h1>
+    </div>
     <div class="card-body">
-      <h1 class="card-title">Update game</h1>
       <Form @submit="updateGame" :validation-schema="schema">
         <div class="form-control">
           <label for="title" class="label">
@@ -66,98 +64,98 @@
 </template>
 
 <script>
-import Game from '@/services/game'
-import Tag from '@/services/tag'
-import { ErrorMessage, Field, Form } from 'vee-validate'
-import * as yup from 'yup'
-import VueMultiselect from 'vue-multiselect'
+  import Game from '@/services/game'
+  import Tag from '@/services/tag'
+  import { ErrorMessage, Field, Form } from 'vee-validate'
+  import * as yup from 'yup'
+  import VueMultiselect from 'vue-multiselect'
 
-export default {
-  components: {
-    Form,
-    Field,
-    ErrorMessage,
-    VueMultiselect
-  },
-  data() {
-    const schema = yup.object().shape({
-      title: yup
-          .string()
-          .required('Title is required!')
-          .max(50, 'Must be maximum 50 characters!'),
-    })
-
-    return {
-      currentGame: null,
-      loading: false,
-      success: false,
-      message: '',
-      schema,
-      selectedTags: [],
-      tags: [],
-      isLoading: false
-    }
-  },
-  methods: {
-    limitText (count) {
-      return `and ${count} other tags`
+  export default {
+    components: {
+      Form,
+      Field,
+      ErrorMessage,
+      VueMultiselect
     },
-    asyncFind (query) {
-      if (!query) {
-        return
+    data() {
+      const schema = yup.object().shape({
+        title: yup
+            .string()
+            .required('Title is required!')
+            .max(50, 'Must be maximum 50 characters!'),
+      })
+
+      return {
+        currentGame: null,
+        loading: false,
+        success: false,
+        message: '',
+        schema,
+        selectedTags: [],
+        tags: [],
+        isLoading: false
       }
-
-      this.isLoading = true
-
-      Tag.searchByName(query)
-          .then(response => {
-            this.isLoading = false
-            this.tags = response.data
-        })
-        .catch(e => {
-          this.isLoading = false
-          this.success = false
-          this.message = e
-        })
     },
-    getGame(id) {
-      Game.get(id)
-          .then(response => {
-            this.currentGame = response.data
-            this.selectedTags = this.currentGame.tags
+    methods: {
+      limitText (count) {
+        return `and ${count} other tags`
+      },
+      asyncFind (query) {
+        if (!query) {
+          return
+        }
+
+        this.isLoading = true
+
+        Tag.searchByName(query)
+            .then(response => {
+              this.isLoading = false
+              this.tags = response.data
           })
           .catch(e => {
+            this.isLoading = false
             this.success = false
             this.message = e
           })
-    },
-    updateGame() {
-      this.loading = true
-      this.success = false
-      this.message = ''
+      },
+      getGame(id) {
+        Game.get(id)
+            .then(response => {
+              this.currentGame = response.data
+              this.selectedTags = this.currentGame.tags
+            })
+            .catch(e => {
+              this.success = false
+              this.message = e
+            })
+      },
+      updateGame() {
+        this.loading = true
+        this.success = false
+        this.message = ''
 
-      this.currentGame.tags = this.selectedTags
+        this.currentGame.tags = this.selectedTags
 
-      Game.update(this.currentGame.id, this.currentGame)
-          .then(() => {
-            this.loading = false
-            this.success = true
-            this.message = 'The game was updated successfully!'
-          })
-          .catch(error => {
-            this.loading = false
-            this.success = false
-            this.message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString()
-          })
+        Game.update(this.currentGame.id, this.currentGame)
+            .then(() => {
+              this.loading = false
+              this.success = true
+              this.message = 'The game was updated successfully!'
+            })
+            .catch(error => {
+              this.loading = false
+              this.success = false
+              this.message =
+                  (error.response &&
+                      error.response.data &&
+                      error.response.data.message) ||
+                  error.message ||
+                  error.toString()
+            })
+      },
     },
-  },
-  mounted() {
-    this.getGame(this.$route.params.id)
+    mounted() {
+      this.getGame(this.$route.params.id)
+    }
   }
-}
 </script>

@@ -1,16 +1,20 @@
 <template>
-  <NavbarItem />
-  <div class="container mx-auto py-8 px-4">
-    <router-view />
-  </div>
+  <component :is="layout"></component>
 </template>
 
 <script>
-  import NavbarItem from '@/components/NavbarItem'
+  import DefaultLayout from '@/components/layouts/DefaultLayout'
+  import AdminLayout from '@/components/layouts/AdminLayout'
 
   export default {
     components: {
-      NavbarItem
-    }
+      'default': DefaultLayout,
+      'admin': AdminLayout
+    },
+    computed: {
+      layout () {
+        return this.$route.meta.layout || "default"
+      }
+    },
   }
 </script>

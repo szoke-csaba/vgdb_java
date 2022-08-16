@@ -2,12 +2,17 @@ import http from '@/http-common'
 import authHeader from '@/services/auth-header'
 
 class Game {
-    getAll() {
-        return http.get('/games')
+    getAll(page, pageSize) {
+        return http.get('/games', {
+            params: {
+                page: page,
+                pageSize: pageSize
+            }
+        })
     }
 
     get(id) {
-        return http.get(`/games/${id}`, { headers: authHeader() })
+        return http.get(`/games/${id}`)
     }
 
     create(data) {

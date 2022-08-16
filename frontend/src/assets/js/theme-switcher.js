@@ -6,6 +6,10 @@ window.onload = function() {
     const sunIcon = document.getElementById('sun-icon')
     const moonIcon = document.getElementById('moon-icon')
 
+    if (!themeSwitch) {
+        return
+    }
+
     setDefaultTheme()
 
     sunIcon.addEventListener('click', toggleSwitch, false)
