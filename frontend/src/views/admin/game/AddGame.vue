@@ -35,6 +35,8 @@
   import Game from '@/services/game'
   import { ErrorMessage, Field, Form } from 'vee-validate'
   import * as yup from 'yup'
+  import { computed } from "vue"
+  import { useHead } from "@vueuse/head"
 
   export default {
     components: {
@@ -76,5 +78,10 @@
           })
       },
     },
+    mounted() {
+      useHead({
+        title: computed(() => 'Admin - Add game | ' + process.env.VUE_APP_TITLE),
+      })
+    }
   }
 </script>

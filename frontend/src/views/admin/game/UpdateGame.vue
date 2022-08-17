@@ -1,5 +1,5 @@
 <template>
-  <div class="card flex-shrink-0 max-w-lg shadow-2xl bg-base-100 mx-auto" v-if="currentGame">
+  <div class="card overflow-visible flex-shrink-0 max-w-lg shadow-2xl bg-base-100 mx-auto" v-if="currentGame">
     <div class="p-8 pb-0 flex items-center">
       <router-link :to="{ name: 'admin-games' }" class="text-4xl">
         <font-awesome-icon icon="fa-solid fa-arrow-left" />
@@ -36,7 +36,7 @@
               :options-limit="100"
               :limit="10"
               :limit-text="limitText"
-              :max-height="600"
+              :max-height="200"
               :hide-selected="true"
               @search-change="asyncFind"
           >
@@ -123,6 +123,7 @@
             .then(response => {
               this.currentGame = response.data
               this.selectedTags = this.currentGame.tags
+              document.title = 'Admin - ' + this.currentGame.title + ' | ' + process.env.VUE_APP_TITLE
             })
             .catch(e => {
               this.success = false

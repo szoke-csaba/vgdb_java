@@ -40,53 +40,60 @@
 </template>
 
 <script>
-import { Form, Field, ErrorMessage } from 'vee-validate'
-import * as yup from 'yup'
+  import { Form, Field, ErrorMessage } from 'vee-validate'
+  import * as yup from 'yup'
+  import { computed } from "vue"
+  import { useHead } from "@vueuse/head"
 
-export default {
-  name: 'LoginPage',
-  components: {
-    Form,
-    Field,
-    ErrorMessage,
-  },
-  data() {
-    const schema = yup.object().shape({
-      email: yup
-          .string()
-          .required('Email is required!')
-          .email('Email is invalid!'),
-      password: yup
-          .string()
-          .required('Password is required!'),
-    })
-
-    return {
-      loading: false,
-      message: '',
-      schema,
-    }
-  },
-  methods: {
-    handleLogin(user) {
-      this.message = ''
-      this.loading = true
-
-      this.$store.dispatch('auth/login', user).then(
-          () => {
-            this.$router.push({name: 'profile'})
-          },
-          (error) => {
-            this.loading = false
-            this.message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString()
-          }
-      )
+  export default {
+    name: 'LoginPage',
+    components: {
+      Form,
+      Field,
+      ErrorMessage,
     },
-  },
-}
+    data() {
+      const schema = yup.object().shape({
+        email: yup
+            .string()
+            .required('Email is required!')
+            .email('Email is invalid!'),
+        password: yup
+            .string()
+            .required('Password is required!'),
+      })
+
+      return {
+        loading: false,
+        message: '',
+        schema,
+      }
+    },
+    methods: {
+      handleLogin(user) {
+        this.message = ''
+        this.loading = true
+
+        this.$store.dispatch('auth/login', user).then(
+            () => {
+              this.$router.push({name: 'profile'})
+            },
+            (error) => {
+              this.loading = false
+              this.message =
+                  (error.response &&
+                      error.response.data &&
+                      error.response.data.message) ||
+                  error.message ||
+                  error.toString()
+            }
+        )
+      },
+    },
+    mounted() {
+      useHead({
+        title: computed(() => 'Login | ' + process.env.VUE_APP_TITLE),
+      })
+    }
+  }
 </script>

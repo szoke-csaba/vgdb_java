@@ -42,6 +42,8 @@
 <script>
   import { ErrorMessage, Field, Form } from 'vee-validate'
   import * as yup from 'yup'
+  import { computed } from "vue"
+  import { useHead } from "@vueuse/head"
 
   export default {
     name: 'RegisterPage',
@@ -54,8 +56,8 @@
       const schema = yup.object().shape({
         email: yup
             .string()
-            .required('Email is required!')
             .email('Email is invalid!')
+            .required('Email is required!')
             .max(20, 'Must be maximum 20 characters!'),
         password: yup
             .string()
@@ -91,5 +93,10 @@
         )
       },
     },
+    mounted() {
+      useHead({
+        title: computed(() => 'Register | ' + process.env.VUE_APP_TITLE),
+      })
+    }
   }
 </script>

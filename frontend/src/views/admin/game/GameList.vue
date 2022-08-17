@@ -43,42 +43,46 @@
 <script>
   import { useRoute } from 'vue-router'
   import Game from '@/services/game'
-
-  const PAGE_SIZE = 20
+  import { computed } from "vue"
+  import { useHead } from "@vueuse/head"
 
   export default {
-  data() {
-    return {
-      games: [],
-      paging: [],
-      currentPage: useRoute().query.page
+    data() {
+      return {
+        games: [],
+        paging: [],
+        currentPage: useRoute().query.page
+      }
+    },
+    methods: {
+      retrieveGames() {
+        Game.getAll(this.currentPage, process.env.VUE_APP_ADMIN_GAMES_PAGE_SIZE)
+            .then(response => {
+              this.games = response.data.games
+              this.paging = response.data.paging
+            })
+            .catch(e => {
+              alert(e)
+            })
+      },
+      deleteGame(id) {
+        Game.delete(id)
+            .then(() => {
+              const index = this.games.findIndex(post => post.id === id)
+              if (~index)
+                this.games.splice(index, 1)
+            })
+            .catch(e => {
+              alert(e)
+            })
+      },
+    },
+    mounted() {
+      this.retrieveGames()
+
+      useHead({
+        title: computed(() => 'Admin - Games | ' + process.env.VUE_APP_TITLE),
+      })
     }
-  },
-  methods: {
-    retrieveGames() {
-      Game.getAll(this.currentPage, PAGE_SIZE)
-          .then(response => {
-            this.games = response.data.games
-            this.paging = response.data.paging
-          })
-          .catch(e => {
-            alert(e)
-          })
-    },
-    deleteGame(id) {
-      Game.delete(id)
-          .then(() => {
-            const index = this.games.findIndex(post => post.id === id)
-            if (~index)
-              this.games.splice(index, 1)
-          })
-          .catch(e => {
-            alert(e)
-          })
-    },
-  },
-  mounted() {
-    this.retrieveGames()
   }
-}
 </script>

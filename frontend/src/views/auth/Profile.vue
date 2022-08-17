@@ -23,6 +23,9 @@
 </template>
 
 <script>
+  import { computed } from "vue"
+  import { useHead } from "@vueuse/head"
+
   export default {
     name: 'ProfilePage',
     computed: {
@@ -30,5 +33,10 @@
         return this.$store.state.auth.user
       }
     },
+    mounted() {
+      useHead({
+        title: computed(() => 'Profile | ' + process.env.VUE_APP_TITLE),
+      })
+    }
   }
 </script>

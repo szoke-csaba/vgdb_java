@@ -3,10 +3,9 @@ package io.github.szokecsaba.vgdb.tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/tags")
@@ -18,9 +17,40 @@ public class TagController {
         this.tagService = tagService;
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/search/{name}")
     @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
     public ResponseEntity<?> searchByName(@PathVariable String name) {
         return tagService.searchByName(name);
+    }
+
+    @GetMapping
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
+    public ResponseEntity<?> getAll(@RequestParam(required = false) Integer page,
+                                    @RequestParam(required = false) Integer pageSize) {
+        return tagService.getAll(page, pageSize);
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
+    public ResponseEntity<?> get(@PathVariable long id) {
+        return tagService.get(id);
+    }
+
+    @PostMapping
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
+    public ResponseEntity<?> create(@Valid @RequestBody Tag tag) {
+        return tagService.create(tag);
+    }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
+    public ResponseEntity<?> update(@Valid @RequestBody Tag tag, @PathVariable long id) {
+        return tagService.update(tag, id);
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
+    public ResponseEntity<?> delete(@PathVariable long id) {
+        return tagService.delete(id);
     }
 }

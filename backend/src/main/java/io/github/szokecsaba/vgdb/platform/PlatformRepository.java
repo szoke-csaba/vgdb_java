@@ -1,5 +1,5 @@
 package io.github.szokecsaba.vgdb.platform;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PlatformRepository extends CrudRepository<Platform, Long> {}
+public interface PlatformRepository extends JpaRepository<Platform, Long> {}

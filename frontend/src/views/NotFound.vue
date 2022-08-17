@@ -9,3 +9,16 @@
     </div>
   </div>
 </template>
+
+<script>
+  import { computed } from "vue"
+  import { useHead } from "@vueuse/head"
+
+  export default {
+    mounted() {
+      useHead({
+        title: computed(() => '404 - Page not found | ' + process.env.VUE_APP_TITLE),
+      })
+    }
+  }
+</script>

@@ -29,6 +29,8 @@
 <script>
   import { useRoute } from 'vue-router'
   import Game from '@/services/game'
+  import { computed } from "vue"
+  import { useHead } from "@vueuse/head"
 
   export default {
     data() {
@@ -40,7 +42,7 @@
     },
     methods: {
       retrieveGames() {
-        Game.getAll(this.currentPage)
+        Game.getAll(this.currentPage, process.env.VUE_APP_GAMES_PAGE_SIZE)
             .then(response => {
               this.games = response.data.games
               this.paging = response.data.paging
@@ -52,6 +54,10 @@
     },
     mounted() {
       this.retrieveGames()
+
+      useHead({
+        title: computed(() => 'Games | ' + process.env.VUE_APP_TITLE),
+      })
     },
   }
 </script>
