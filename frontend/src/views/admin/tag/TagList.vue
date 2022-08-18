@@ -56,7 +56,7 @@
     },
     methods: {
       retrieveTags() {
-        Tag.getAll(this.currentPage, process.env.VUE_APP_ADMIN_TAGS_PAGE_SIZE)
+        Tag.getAll(this.currentPage, process.env.VUE_APP_ADMIN_PAGE_SIZE)
             .then(response => {
               this.tags = response.data.tags
               this.paging = response.data.paging

@@ -11,7 +11,11 @@ import javax.validation.constraints.NotBlank;
 @Table(name = "screenshots")
 public class Screenshot {
     @Id
-    @GeneratedValue
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "screenshot_sequence"
+    )
+    @SequenceGenerator(name = "screenshot_sequence")
     private long id;
 
     @NotBlank

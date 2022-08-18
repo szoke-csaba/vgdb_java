@@ -3,12 +3,12 @@ package io.github.szokecsaba.vgdb.util;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
-@Service
-public class PagingService {
+@Component
+public class PagingUtil {
     private Integer page;
     private Integer pageSize;
     private Integer currentPage;

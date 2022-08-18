@@ -56,7 +56,7 @@
     },
     methods: {
       retrieveGenres() {
-        Genre.getAll(this.currentPage, process.env.VUE_APP_ADMIN_GENRES_PAGE_SIZE)
+        Genre.getAll(this.currentPage, process.env.VUE_APP_ADMIN_PAGE_SIZE)
             .then(response => {
               this.genres = response.data.genres
               this.paging = response.data.paging

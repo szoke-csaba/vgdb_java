@@ -16,11 +16,11 @@ class Game {
     }
 
     create(data) {
-        return http.post('/games', data, { headers: authHeader() })
+        return http.post('/games', data, { headers: authHeader(true) })
     }
 
     update(id, data) {
-        return http.put(`/games/${id}`, data, { headers: authHeader() })
+        return http.put(`/games/${id}`, data, { headers: authHeader(true) })
     }
 
     delete(id) {

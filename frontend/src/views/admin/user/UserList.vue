@@ -58,7 +58,7 @@
     },
     methods: {
       retrieveUsers() {
-        User.getAll(this.currentPage, process.env.VUE_APP_ADMIN_USERS_PAGE_SIZE)
+        User.getAll(this.currentPage, process.env.VUE_APP_ADMIN_PAGE_SIZE)
             .then(response => {
               this.users = response.data.users
               this.paging = response.data.paging

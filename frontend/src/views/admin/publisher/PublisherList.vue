@@ -56,7 +56,7 @@
     },
     methods: {
       retrievePublishers() {
-        Publisher.getAll(this.currentPage, process.env.VUE_APP_ADMIN_PUBLISHERS_PAGE_SIZE)
+        Publisher.getAll(this.currentPage, process.env.VUE_APP_ADMIN_PAGE_SIZE)
             .then(response => {
               this.publishers = response.data.publishers
               this.paging = response.data.paging

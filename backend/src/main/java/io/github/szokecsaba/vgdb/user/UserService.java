@@ -1,7 +1,7 @@
 package io.github.szokecsaba.vgdb.user;
 
 import io.github.szokecsaba.vgdb.security.TokenGenerator;
-import io.github.szokecsaba.vgdb.util.PagingService;
+import io.github.szokecsaba.vgdb.util.PagingUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,17 +15,19 @@ import java.util.Map;
 
 @Service
 public class UserService {
+    private static final String USER_NOT_FOUND = "User not found with: ";
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenGenerator tokenGenerator;
-    private final PagingService pagingService;
+    private final PagingUtil pagingUtil;
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, TokenGenerator tokenGenerator, PagingService pagingService) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, TokenGenerator tokenGenerator, PagingUtil pagingUtil) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.tokenGenerator = tokenGenerator;
-        this.pagingService = pagingService;
+        this.pagingUtil = pagingUtil;
     }
 
     public ResponseEntity<?> register(User user) {
@@ -41,7 +43,7 @@ public class UserService {
 
     public ResponseEntity<?> login(String email) {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND + email));
 
         LoginResponse response = new LoginResponse(user.getEmail(), user.getRole(), tokenGenerator.generate(user));
 
@@ -49,26 +51,26 @@ public class UserService {
     }
 
     public ResponseEntity<?> getAll(Integer page, Integer pageSize) {
-        pagingService.setPage(page);
-        pagingService.setPageSize(pageSize);
+        pagingUtil.setPage(page);
+        pagingUtil.setPageSize(pageSize);
 
-        Pageable pageable = pagingService.getPageable();
+        Pageable pageable = pagingUtil.getPageable();
         Page<User> users = userRepository.findAll(pageable);
-        Map<String, Object> response = pagingService.getResponse(users, "users");
+        Map<String, Object> response = pagingUtil.getResponse(users, "users");
 
         return ResponseEntity.ok().body(response);
     }
 
     public ResponseEntity<?> get(long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
+                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND + id));
 
         return ResponseEntity.ok().body(user);
     }
 
     public ResponseEntity<?> update(User userUpdated, long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
+                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND + id));
 
         if (!user.getEmail().equals(userUpdated.getEmail()) && userRepository.existsByEmail(userUpdated.getEmail())) {
             throw new UserAlreadyExistsException();
@@ -89,7 +91,7 @@ public class UserService {
 
     public ResponseEntity<?> delete(long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
+                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND + id));
 
         userRepository.delete(user);
 

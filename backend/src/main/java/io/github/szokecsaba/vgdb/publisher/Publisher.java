@@ -10,7 +10,11 @@ import javax.validation.constraints.NotBlank;
 @Table(name = "publishers")
 public class Publisher {
     @Id
-    @GeneratedValue
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "publisher_sequence"
+    )
+    @SequenceGenerator(name = "publisher_sequence")
     private long id;
 
     @NotBlank

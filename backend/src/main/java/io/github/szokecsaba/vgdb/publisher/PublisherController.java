@@ -17,6 +17,12 @@ public class PublisherController {
         this.publisherService = publisherService;
     }
 
+    @GetMapping("/search/{name}")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
+    public ResponseEntity<?> searchByName(@PathVariable String name) {
+        return publisherService.searchByName(name);
+    }
+
     @GetMapping
     @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
     public ResponseEntity<?> getAll(@RequestParam(required = false) Integer page,

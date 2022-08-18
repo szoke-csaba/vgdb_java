@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/games")
@@ -28,15 +28,15 @@ public class GameController {
         return gameService.get(id);
     }
 
-    @PostMapping
+    @PostMapping(consumes = {"multipart/form-data"})
     @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
-    public ResponseEntity<?> create(@Valid @RequestBody Game game) {
+    public ResponseEntity<?> create(@ModelAttribute GameDTO game) throws IOException {
         return gameService.create(game);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", consumes = {"multipart/form-data"})
     @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
-    public ResponseEntity<?> update(@Valid @RequestBody Game game, @PathVariable long id) {
+    public ResponseEntity<?> update(@ModelAttribute GameDTO game, @PathVariable long id) throws IOException {
         return gameService.update(game, id);
     }
 

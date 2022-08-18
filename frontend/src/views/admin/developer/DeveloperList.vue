@@ -56,7 +56,7 @@
     },
     methods: {
       retrieveDevelopers() {
-        Developer.getAll(this.currentPage, process.env.VUE_APP_ADMIN_DEVELOPERS_PAGE_SIZE)
+        Developer.getAll(this.currentPage, process.env.VUE_APP_ADMIN_PAGE_SIZE)
             .then(response => {
               this.developers = response.data.developers
               this.paging = response.data.paging

@@ -16,12 +16,27 @@
           <ErrorMessage name="title" class="error-feedback text-red-400" />
         </div>
         <div class="form-control">
-          <label for="tag" class="label">
+          <label for="releaseDate" class="label">
+            <span class="label-text">Release date</span>
+          </label>
+          <Field id="releaseDate" name="releaseDate" type="date" class="input input-bordered" v-model="currentGame.releaseDate" />
+          <ErrorMessage name="releaseDate" class="error-feedback text-red-400" />
+        </div>
+        <div class="form-control">
+          <label for="thumbnailFile" class="label">
+            <span class="label-text">Thumbnail</span>
+          </label>
+          <img :src="`http://localhost:8081/images/games/thumbnails/${currentGame.thumbnail}`">
+          <Field id="thumbnailFile" name="thumbnailFile" type="file" accept="image/png, image/jpeg" />
+          <ErrorMessage name="thumbnailFile" class="error-feedback text-red-400" />
+        </div>
+        <div class="form-control">
+          <label for="tags" class="label">
             <span class="label-text">Tags</span>
           </label>
           <VueMultiselect
               v-model="selectedTags"
-              id="tag"
+              id="tags"
               label="name"
               track-by="id"
               placeholder="Type to search"
@@ -43,6 +58,13 @@
             <template #noResult>No tags found.</template>
             <template #noOptions>No tags found.</template>
           </VueMultiselect>
+        </div>
+        <div class="form-control">
+          <label for="rawgId" class="label">
+            <span class="label-text">Rawg id</span>
+          </label>
+          <Field id="rawgId" name="rawgId" type="number" class="input input-bordered" v-model="currentGame.rawgId" />
+          <ErrorMessage name="rawgId" class="error-feedback text-red-400" />
         </div>
         <div class="form-control mt-6">
           <button class="btn btn-primary" :class="{ loading: loading }" :disabled="loading">Update</button>
@@ -83,6 +105,10 @@
             .string()
             .required('Title is required!')
             .max(50, 'Must be maximum 50 characters!'),
+        rawgId: yup
+            .number('Must be a number!')
+            .required('Rawg id is required!')
+            .min(0),
       })
 
       return {
@@ -98,7 +124,7 @@
     },
     methods: {
       limitText (count) {
-        return `and ${count} other tags`
+        return `and ${count} other`
       },
       asyncFind (query) {
         if (!query) {

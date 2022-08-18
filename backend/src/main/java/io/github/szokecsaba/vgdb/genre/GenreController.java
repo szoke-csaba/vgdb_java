@@ -17,6 +17,12 @@ public class GenreController {
         this.genreService = genreService;
     }
 
+    @GetMapping("/search/{name}")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
+    public ResponseEntity<?> searchByName(@PathVariable String name) {
+        return genreService.searchByName(name);
+    }
+
     @GetMapping
     @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
     public ResponseEntity<?> getAll(@RequestParam(required = false) Integer page,

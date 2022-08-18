@@ -17,6 +17,12 @@ public class DeveloperController {
         this.developerService = developerService;
     }
 
+    @GetMapping("/search/{name}")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
+    public ResponseEntity<?> searchByName(@PathVariable String name) {
+        return developerService.searchByName(name);
+    }
+
     @GetMapping
     @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
     public ResponseEntity<?> getAll(@RequestParam(required = false) Integer page,

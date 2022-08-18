@@ -11,6 +11,9 @@
         <tr>
           <th style="width: 5%">ID</th>
           <th>Title</th>
+          <th>Released</th>
+          <th>Created</th>
+          <th>Updated</th>
           <th style="width: 5%" colspan="2" class="text-center">Actions</th>
         </tr>
       </thead>
@@ -18,6 +21,9 @@
         <tr v-for="(game, index) in games" :key="index">
           <th>{{ game.id }}</th>
           <td>{{ game.title }}</td>
+          <td>{{ game.releaseDate }}</td>
+          <td>{{ game.created }}</td>
+          <td>{{ game.updated }}</td>
           <td title="Edit" class="text-end">
             <router-link :to="{ name: 'update-game', params: { id: game.id } }" class="btn btn-sm btn-secondary" title="Edit">
               <font-awesome-icon icon="fa-solid fa-pen" />
@@ -56,7 +62,7 @@
     },
     methods: {
       retrieveGames() {
-        Game.getAll(this.currentPage, process.env.VUE_APP_ADMIN_GAMES_PAGE_SIZE)
+        Game.getAll(this.currentPage, process.env.VUE_APP_ADMIN_PAGE_SIZE)
             .then(response => {
               this.games = response.data.games
               this.paging = response.data.paging

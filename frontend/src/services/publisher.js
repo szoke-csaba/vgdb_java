@@ -2,6 +2,10 @@ import http from '@/http-common'
 import authHeader from "@/services/auth-header";
 
 class Publisher {
+    searchByName(query) {
+        return http.get(`/publishers/search/${query}`, { headers: authHeader() })
+    }
+
     getAll(page, pageSize) {
         return http.get('/publishers', {
             params: {

@@ -22,6 +22,16 @@
           <Field id="password" name="password" type="password" class="input input-bordered" />
           <ErrorMessage name="password" class="error-feedback text-red-400" />
         </div>
+        <div class="form-control">
+          <label for="rank" class="label">
+            <span class="label-text">Rank</span>
+          </label>
+          <Field as="select" name="role" id="rank" class="select select-bordered">
+            <option value="ROLE_USER">User</option>
+            <option value="ROLE_ADMIN">Admin</option>
+          </Field>
+          <ErrorMessage name="role" class="error-feedback text-red-400" />
+        </div>
         <div class="form-control mt-6">
           <button class="btn btn-primary" :class="{ loading: loading }" :disabled="loading">Add</button>
         </div>
@@ -63,6 +73,9 @@
             .required('Password is required!')
             .min(4, 'Must be at least 4 characters!')
             .max(20, 'Must be maximum 20 characters!'),
+        role: yup
+            .string()
+            .required('Rank is required!'),
       })
 
       return {

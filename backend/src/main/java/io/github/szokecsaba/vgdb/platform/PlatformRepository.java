@@ -2,4 +2,8 @@ package io.github.szokecsaba.vgdb.platform;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PlatformRepository extends JpaRepository<Platform, Long> {}
+import java.util.Set;
+
+public interface PlatformRepository extends JpaRepository<Platform, Long> {
+    Set<Platform> searchByNameContainingIgnoreCase(String name);
+}

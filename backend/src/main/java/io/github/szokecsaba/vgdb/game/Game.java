@@ -7,7 +7,10 @@ import io.github.szokecsaba.vgdb.platform.Platform;
 import io.github.szokecsaba.vgdb.publisher.Publisher;
 import io.github.szokecsaba.vgdb.screenshot.Screenshot;
 import io.github.szokecsaba.vgdb.tag.Tag;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -20,12 +23,19 @@ import java.util.Set;
 
 @Data
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "games")
 public class Game {
     private static final String LOCAL_DATE_TIME_DEFAULT_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "game_sequence"
+    )
+    @SequenceGenerator(name = "game_sequence")
     private long id;
 
     @NotBlank
@@ -34,7 +44,7 @@ public class Game {
     @NotNull
     private long rawgId;
 
-    private String backgroundImage;
+    private String thumbnail;
 
     private LocalDate releaseDate;
 

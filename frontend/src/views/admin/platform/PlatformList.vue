@@ -56,7 +56,7 @@
     },
     methods: {
       retrievePlatforms() {
-        Platform.getAll(this.currentPage, process.env.VUE_APP_ADMIN_PLATFORMS_PAGE_SIZE)
+        Platform.getAll(this.currentPage, process.env.VUE_APP_ADMIN_PAGE_SIZE)
             .then(response => {
               this.platforms = response.data.platforms
               this.paging = response.data.paging

@@ -1,6 +1,7 @@
 package io.github.szokecsaba.vgdb.publisher;
 
-import io.github.szokecsaba.vgdb.util.PagingService;
+import io.github.szokecsaba.vgdb.genre.Genre;
+import io.github.szokecsaba.vgdb.util.PagingUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,32 +10,41 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.Set;
 
 @Service
 public class PublisherService {
+    private static final String PUBLISHER_NOT_FOUND = "Publisher not found with id: ";
+
     private final PublisherRepository publisherRepository;
-    private final PagingService pagingService;
+    private final PagingUtil pagingUtil;
 
     @Autowired
-    public PublisherService(PublisherRepository publisherRepository, PagingService pagingService) {
+    public PublisherService(PublisherRepository publisherRepository, PagingUtil pagingUtil) {
         this.publisherRepository = publisherRepository;
-        this.pagingService = pagingService;
+        this.pagingUtil = pagingUtil;
+    }
+
+    public ResponseEntity<?> searchByName(String name) {
+        Set<Publisher> publishers = publisherRepository.searchByNameContainingIgnoreCase(name);
+
+        return ResponseEntity.ok().body(publishers);
     }
 
     public ResponseEntity<?> getAll(Integer page, Integer pageSize) {
-        pagingService.setPage(page);
-        pagingService.setPageSize(pageSize);
+        pagingUtil.setPage(page);
+        pagingUtil.setPageSize(pageSize);
 
-        Pageable pageable = pagingService.getPageable();
+        Pageable pageable = pagingUtil.getPageable();
         Page<Publisher> publishers = publisherRepository.findAll(pageable);
-        Map<String, Object> response = pagingService.getResponse(publishers, "publishers");
+        Map<String, Object> response = pagingUtil.getResponse(publishers, "publishers");
 
         return ResponseEntity.ok().body(response);
     }
 
     public ResponseEntity<?> get(long id) {
         Publisher publisher = publisherRepository.findById(id)
-                .orElseThrow(() -> new PublisherNotFoundException("Publisher not found with id: " + id));
+                .orElseThrow(() -> new PublisherNotFoundException(PUBLISHER_NOT_FOUND + id));
 
         return ResponseEntity.ok().body(publisher);
     }
@@ -47,7 +57,7 @@ public class PublisherService {
 
     public ResponseEntity<?> update(Publisher publisherUpdated, long id) {
         if (publisherRepository.findById(id).isEmpty()) {
-            throw new PublisherNotFoundException("Publisher not found with id: " + id);
+            throw new PublisherNotFoundException(PUBLISHER_NOT_FOUND + id);
         }
 
         publisherUpdated.setId(id);
@@ -58,7 +68,7 @@ public class PublisherService {
 
     public ResponseEntity<?> delete(long id) {
         Publisher publisher = publisherRepository.findById(id)
-                .orElseThrow(() -> new PublisherNotFoundException("Publisher not found with id: " + id));
+                .orElseThrow(() -> new PublisherNotFoundException(PUBLISHER_NOT_FOUND + id));
 
         publisherRepository.delete(publisher);
 

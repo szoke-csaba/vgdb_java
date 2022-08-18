@@ -2,6 +2,10 @@ import http from '@/http-common'
 import authHeader from "@/services/auth-header";
 
 class Platform {
+    searchByName(query) {
+        return http.get(`/platforms/search/${query}`, { headers: authHeader() })
+    }
+
     getAll(page, pageSize) {
         return http.get('/platforms', {
             params: {

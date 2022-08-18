@@ -17,6 +17,12 @@ public class PlatformController {
         this.platformService = platformService;
     }
 
+    @GetMapping("/search/{name}")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
+    public ResponseEntity<?> searchByName(@PathVariable String name) {
+        return platformService.searchByName(name);
+    }
+
     @GetMapping
     @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
     public ResponseEntity<?> getAll(@RequestParam(required = false) Integer page,
