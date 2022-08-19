@@ -1,11 +1,9 @@
 package io.github.szokecsaba.vgdb.util;
 
 import org.springframework.stereotype.Component;
-import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -17,18 +15,18 @@ import java.util.Objects;
 @Component
 public class FileHandlerUtil {
     private String fileName;
-    private String uploadDir;
+    private String directory;
     private MultipartFile multipartFile;
 
-    public void setData(MultipartFile file, String directory) {
-        multipartFile = file;
-        fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
-        fileName = System.currentTimeMillis() + "_" + fileName;
-        uploadDir = directory + fileName;
+    public void setData(MultipartFile multipartFile, String directory) {
+        this.multipartFile = multipartFile;
+        this.directory = directory;
+        this.fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+        this.fileName = System.currentTimeMillis() + "_" + this.fileName;
     }
 
     public void saveFile() throws IOException {
-        Path uploadPath = Paths.get(uploadDir);
+        Path uploadPath = Paths.get(directory);
 
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
@@ -47,6 +45,10 @@ public class FileHandlerUtil {
     }
 
     public void delete(String path) {
-        FileSystemUtils.deleteRecursively(new File(path));
+        try {
+            Files.deleteIfExists(Paths.get(path));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

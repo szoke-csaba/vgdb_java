@@ -13,6 +13,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -29,6 +30,8 @@ import java.util.Set;
 @Table(name = "games")
 public class Game {
     private static final String LOCAL_DATE_TIME_DEFAULT_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    private static final String THUMBNAIL_URL = "http://localhost:8081/api/images/games/thumbnails/";
+    private static final String DEFAULT_THUMBNAIL = "https://placeimg.com/400/225/nature";
 
     @Id
     @GeneratedValue(
@@ -46,15 +49,14 @@ public class Game {
 
     private String thumbnail;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate releaseDate;
 
-    @OneToMany(mappedBy = "game", cascade = { CascadeType.ALL })
+    @OneToMany(cascade = { CascadeType.ALL }, orphanRemoval = true)
+    @JoinColumn(name = "game_id", nullable = false)
     private Set<Screenshot> screenshots;
 
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
+    @ManyToMany(cascade = { CascadeType.MERGE })
     @JoinTable(
             name = "game_tag",
             joinColumns = @JoinColumn(name = "game_id"),
@@ -62,10 +64,7 @@ public class Game {
     )
     private Set<Tag> tags;
 
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
+    @ManyToMany(cascade = { CascadeType.MERGE })
     @JoinTable(
             name = "game_genre",
             joinColumns = @JoinColumn(name = "game_id"),
@@ -73,10 +72,7 @@ public class Game {
     )
     private Set<Genre> genres;
 
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
+    @ManyToMany(cascade = { CascadeType.MERGE })
     @JoinTable(
             name = "game_developer",
             joinColumns = @JoinColumn(name = "game_id"),
@@ -84,10 +80,7 @@ public class Game {
     )
     private Set<Developer> developers;
 
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
+    @ManyToMany(cascade = { CascadeType.MERGE })
     @JoinTable(
             name = "game_publisher",
             joinColumns = @JoinColumn(name = "game_id"),
@@ -95,10 +88,7 @@ public class Game {
     )
     private Set<Publisher> publishers;
 
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
+    @ManyToMany(cascade = { CascadeType.MERGE })
     @JoinTable(
             name = "game_platform",
             joinColumns = @JoinColumn(name = "game_id"),
@@ -113,4 +103,8 @@ public class Game {
     @UpdateTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = LOCAL_DATE_TIME_DEFAULT_FORMAT)
     private LocalDateTime updated;
+
+    public String getThumbnailAbsolute() {
+        return thumbnail != null ? THUMBNAIL_URL + thumbnail : DEFAULT_THUMBNAIL;
+    }
 }

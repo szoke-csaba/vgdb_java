@@ -7,13 +7,11 @@
       </ul>
     </div>
     <h1 class="text-3xl mb-5">Games</h1>
-    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5">
-      <div class="card card-compact bg-base-100 shadow-xl" v-for="(game, index) in games" :key="index">
-        <figure>
-          <img src="https://placeimg.com/400/225/nature" :alt="game.title + ' thumbnail'" />
-        </figure>
-        <div class="card-body">
-          <h2 class="card-title">{{ game.title }}</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-1">
+      <div class="cursor-pointer card bg-base-100 shadow-xl bg-cover bg-no-repeat bg-center rounded h-80" v-for="(game, index) in games" :key="index"
+           :style="{ 'background-image': `url(${game.thumbnailAbsolute})` }">
+        <div class="hover:bg-black/20 transition card-body justify-end p-0">
+          <h2 class="bg-black/20 card-title text-slate-50 p-1">{{ game.title }}</h2>
         </div>
       </div>
     </div>

@@ -4,8 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/games")
@@ -28,15 +27,27 @@ public class GameController {
         return gameService.get(id);
     }
 
-    @PostMapping(consumes = {"multipart/form-data"})
+    @PostMapping(value = "/upload-thumbnail", consumes = {"multipart/form-data"})
     @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
-    public ResponseEntity<?> create(@ModelAttribute GameDTO game) throws IOException {
+    public ResponseEntity<?> uploadThumbnail(@ModelAttribute MultipartFile thumbnail, @RequestParam long gameId) {
+        return gameService.uploadThumbnail(thumbnail, gameId);
+    }
+
+    @PostMapping(value = "/upload-screenshots")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
+    public ResponseEntity<?> uploadScreenshots(@RequestParam MultipartFile[] screenshots, @RequestParam long gameId) {
+        return gameService.uploadScreenshots(screenshots, gameId);
+    }
+
+    @PostMapping
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
+    public ResponseEntity<?> create(@RequestBody GameDTO game) {
         return gameService.create(game);
     }
 
-    @PutMapping(value = "/{id}", consumes = {"multipart/form-data"})
+    @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
-    public ResponseEntity<?> update(@ModelAttribute GameDTO game, @PathVariable long id) throws IOException {
+    public ResponseEntity<?> update(@RequestBody GameDTO game, @PathVariable long id) {
         return gameService.update(game, id);
     }
 

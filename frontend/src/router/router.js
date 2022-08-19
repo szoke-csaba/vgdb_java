@@ -44,13 +44,13 @@ const routes = [
     {
         path: '/admin/games/:id',
         name: 'update-game',
-        component: () => import('@/views/admin/game/UpdateGame'),
+        component: () => import('@/views/admin/game/AddAndUpdateGame'),
         meta: { requiresAdmin: true, layout: 'admin' }
     },
     {
         path: '/admin/games/add',
         name: 'add-game',
-        component: () => import('@/views/admin/game/AddGame'),
+        component: () => import('@/views/admin/game/AddAndUpdateGame'),
         meta: { requiresAdmin: true, layout: 'admin' }
     },
     {

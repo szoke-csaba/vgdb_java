@@ -26,7 +26,7 @@ public class GameDTO {
     private MultipartFile thumbnailFile;
 
     public Optional<LocalDate> getReleaseDate() {
-        LocalDate date = releaseDate == null ? null : LocalDate.parse(releaseDate);
+        LocalDate date = releaseDate == null || releaseDate.isBlank() ? null : LocalDate.parse(releaseDate);
 
         return Optional.ofNullable(date);
     }

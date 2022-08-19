@@ -50,6 +50,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                 .authorizeHttpRequests()
                     .antMatchers(HttpMethod.POST, "/login", "/register").permitAll()
                     .antMatchers(HttpMethod.GET, "/games", "/games/*").permitAll()
+                    .antMatchers(HttpMethod.GET, "/images/**").permitAll()
                     .anyRequest().authenticated().and()
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

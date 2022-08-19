@@ -16,11 +16,19 @@ class Game {
     }
 
     create(data) {
-        return http.post('/games', data, { headers: authHeader(true) })
+        return http.post('/games', data, { headers: authHeader() })
+    }
+
+    uploadThumbnail(data) {
+        return http.post('/games/upload-thumbnail', data, { headers: authHeader(true) })
+    }
+
+    uploadScreenshots(data) {
+        return http.post('/games/upload-screenshots', data, { headers: authHeader(true) })
     }
 
     update(id, data) {
-        return http.put(`/games/${id}`, data, { headers: authHeader(true) })
+        return http.put(`/games/${id}`, data, { headers: authHeader() })
     }
 
     delete(id) {
