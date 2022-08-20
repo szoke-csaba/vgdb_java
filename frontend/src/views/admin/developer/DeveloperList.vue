@@ -41,7 +41,6 @@
 </template>
 
 <script>
-  import { useRoute } from 'vue-router'
   import Developer from '@/services/developer'
   import { computed } from "vue"
   import { useHead } from "@vueuse/head"
@@ -51,7 +50,7 @@
       return {
         developers: [],
         paging: [],
-        currentPage: useRoute().query.page
+        currentPage: this.$route.query.page,
       }
     },
     methods: {

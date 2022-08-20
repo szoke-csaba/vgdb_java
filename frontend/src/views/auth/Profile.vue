@@ -3,7 +3,7 @@
     <div class="text-sm breadcrumbs mb-5">
       <ul>
         <li><router-link :to="{ name: 'home' }">Home</router-link></li>
-        <li><router-link :to="{ name: 'profile' }">Profile</router-link></li>
+        <li>Profile</li>
       </ul>
     </div>
     <h1 class="mb-5 text-3xl">{{ currentUser.email }}'s profile</h1>

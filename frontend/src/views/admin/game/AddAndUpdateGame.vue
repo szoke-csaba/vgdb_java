@@ -377,7 +377,7 @@
             formData.append("gameId", this.gameId)
 
             for (let i = 0; i < this.screenshots.length; i++) {
-              formData.append("screenshots", this.screenshots[i]);
+              formData.append("screenshots", this.screenshots[i])
             }
 
             Game.uploadScreenshots(formData)
@@ -415,7 +415,7 @@
               formData.append("gameId", this.currentGame.id)
 
               for (let i = 0; i < this.screenshots.length; i++) {
-                formData.append("screenshots", this.screenshots[i]);
+                formData.append("screenshots", this.screenshots[i])
               }
 
               Game.uploadScreenshots(formData)

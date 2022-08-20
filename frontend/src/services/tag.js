@@ -1,5 +1,5 @@
 import http from '@/http-common'
-import authHeader from "@/services/auth-header";
+import authHeader from "@/services/auth-header"
 
 class Tag {
     searchByName(query) {

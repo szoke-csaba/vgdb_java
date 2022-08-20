@@ -1,4 +1,10 @@
 <template>
+  <div class="text-sm breadcrumbs mb-5">
+    <ul>
+      <li><router-link :to="{ name: 'home' }">Home</router-link></li>
+      <li>404 - Page not found</li>
+    </ul>
+  </div>
   <div class="card flex-shrink-0 max-w-sm shadow-2xl bg-base-100 mx-auto">
     <div class="card-body items-center">
       <h1 class="card-title text-4xl">404</h1>

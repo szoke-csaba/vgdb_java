@@ -2,7 +2,7 @@
   <div class="text-sm breadcrumbs mb-5">
     <ul>
       <li><router-link :to="{ name: 'home' }">Home</router-link></li>
-      <li><router-link :to="{ name: 'register' }">Register</router-link></li>
+      <li>Register</li>
     </ul>
   </div>
   <div class="card flex-shrink-0 max-w-sm shadow-2xl bg-base-100 mx-auto">

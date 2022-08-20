@@ -23,7 +23,7 @@ public class GameService {
     private String THUMBNAIL_DIRECTORY;
     @Value("${games.screenshot.directory}")
     private String SCREENSHOTS_DIRECTORY;
-    private static final String GAME_NOT_FOUND = "Game not found with id: ";
+    public static final String GAME_NOT_FOUND = "Game not found with id: ";
 
     private final GameRepository gameRepository;
     private final PagingUtil pagingUtil;
@@ -39,12 +39,14 @@ public class GameService {
         this.gameMapper = gameMapper;
     }
 
-    public ResponseEntity<?> getAll(Integer page, Integer pageSize) {
+    public ResponseEntity<?> getAll(Integer page, Integer pageSize, String query, String sort) {
         pagingUtil.setPage(page);
         pagingUtil.setPageSize(pageSize);
+        pagingUtil.setSort(sort);
+        query = query != null ? query : "";
 
         Pageable pageable = pagingUtil.getPageable();
-        Page<Game> games = gameRepository.findAll(pageable);
+        Page<Game> games = gameRepository.searchByTitleContainingIgnoreCase(query, pageable);
         Map<String, Object> response = pagingUtil.getResponse(games, "games");
 
         return ResponseEntity.ok().body(response);

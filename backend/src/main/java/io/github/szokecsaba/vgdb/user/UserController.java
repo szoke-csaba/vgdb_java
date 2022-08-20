@@ -3,10 +3,12 @@ package io.github.szokecsaba.vgdb.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.Map;
 
 @RestController
 public class UserController {
@@ -15,6 +17,17 @@ public class UserController {
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @PostMapping("/users/vote/{gameId}")
+    public ResponseEntity<?> vote(Authentication authentication, @PathVariable long gameId,
+                                  @RequestBody Map<String, Integer> vote) {
+        return userService.vote(authentication.getName(), gameId, vote.get("vote"));
+    }
+
+    @GetMapping("/users/vote/{gameId}")
+    public ResponseEntity<?> getGameVote(Authentication authentication, @PathVariable long gameId) {
+        return userService.getGameVote(authentication.getName(), gameId);
     }
 
     @PostMapping("/register")

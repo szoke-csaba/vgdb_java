@@ -47,7 +47,6 @@
 </template>
 
 <script>
-  import { useRoute } from 'vue-router'
   import Game from '@/services/game'
   import { computed } from "vue"
   import { useHead } from "@vueuse/head"
@@ -57,7 +56,7 @@
       return {
         games: [],
         paging: [],
-        currentPage: useRoute().query.page
+        currentPage: this.$route.query.page,
       }
     },
     methods: {

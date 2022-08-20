@@ -9,7 +9,12 @@ const routes = [
     {
         path: '/games',
         name: 'games',
-        component: () => import('@/views/GameList')
+        component: () => import('@/views/game/GameList')
+    },
+    {
+        path: '/games/:id',
+        name: 'game-single',
+        component: () => import('@/views/game/GameSingle')
     },
     {
         path: '/login',

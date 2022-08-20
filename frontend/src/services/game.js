@@ -2,11 +2,13 @@ import http from '@/http-common'
 import authHeader from '@/services/auth-header'
 
 class Game {
-    getAll(page, pageSize) {
+    getAll(page, pageSize, query, sort) {
         return http.get('/games', {
             params: {
                 page: page,
-                pageSize: pageSize
+                pageSize: pageSize,
+                query: query,
+                sort: sort,
             }
         })
     }

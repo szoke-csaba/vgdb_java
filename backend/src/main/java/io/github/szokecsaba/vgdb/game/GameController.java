@@ -18,8 +18,10 @@ public class GameController {
 
     @GetMapping
     public ResponseEntity<?> getAll(@RequestParam(required = false) Integer page,
-                                    @RequestParam(required = false) Integer pageSize) {
-        return gameService.getAll(page, pageSize);
+                                    @RequestParam(required = false) Integer pageSize,
+                                    @RequestParam(required = false) String query,
+                                    @RequestParam(required = false) String sort) {
+        return gameService.getAll(page, pageSize, query, sort);
     }
 
     @GetMapping("/{id}")

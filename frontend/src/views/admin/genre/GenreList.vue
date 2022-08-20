@@ -41,7 +41,6 @@
 </template>
 
 <script>
-  import { useRoute } from 'vue-router'
   import Genre from '@/services/genre'
   import { computed } from "vue"
   import { useHead } from "@vueuse/head"
@@ -51,7 +50,7 @@
       return {
         genres: [],
         paging: [],
-        currentPage: useRoute().query.page
+        currentPage: this.$route.query.page,
       }
     },
     methods: {
