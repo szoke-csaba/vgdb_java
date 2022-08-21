@@ -100,7 +100,7 @@
 
 <script>
   import Game from "@/services/game"
-  import User from "@/services/user"
+  import Vote from "@/services/vote"
   import { ref } from 'vue'
 
   export default {
@@ -137,7 +137,7 @@
     },
     methods: {
       vote(el) {
-        User.vote(this.game.id, parseInt(this.userVote))
+        Vote.addVote(this.game.id, parseInt(this.userVote))
             .then(() => {
               this.voteSaved = true
               el.target.blur()
@@ -171,8 +171,8 @@
               this.message = e
             })
       },
-      getGameVote(gameId) {
-        User.getGameVote(gameId)
+      getVote(gameId) {
+        Vote.getVote(gameId)
             .then(response => {
               this.userVote = response.data
             })
@@ -183,11 +183,11 @@
       },
     },
     mounted() {
-      this.getGame(this.$route.params.id)
-
       if (this.currentUser) {
-        this.getGameVote(this.$route.params.id)
+        this.getVote(this.$route.params.id)
       }
+
+      this.getGame(this.$route.params.id)
     }
   }
 </script>

@@ -3,14 +3,14 @@ import { Buffer } from 'buffer'
 
 class Auth {
     register(user) {
-        return http.post('/register', {
+        return http.post('/auth/register', {
             email: user.email,
             password: user.password
         })
     }
     login(user) {
         return http
-            .post('/login', {}, {
+            .post('/auth/login', {}, {
                 headers: {
                     'Authorization': 'Basic ' + Buffer.from(user.email + ':' + user.password).toString('base64')
                 },

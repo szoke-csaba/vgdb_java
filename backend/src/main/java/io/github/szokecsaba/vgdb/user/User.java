@@ -44,7 +44,7 @@ public class User implements UserDetails {
 
     private String role = "ROLE_USER";
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
     private List<Vote> votes;
 
     @CreationTimestamp

@@ -27,16 +27,6 @@ class User {
     delete(id) {
         return http.delete(`/users/${id}`, { headers: authHeader() })
     }
-
-    vote(gameId, vote) {
-        return http.post(`/users/vote/${gameId}`, {
-            vote,
-        }, { headers: authHeader() })
-    }
-
-    getGameVote(gameId) {
-        return http.get(`/users/vote/${gameId}`, { headers: authHeader() })
-    }
 }
 
 export default new User()

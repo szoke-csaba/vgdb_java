@@ -58,7 +58,7 @@ public class Game {
     @JoinColumn(name = "game_id", nullable = false)
     private Set<Screenshot> screenshots;
 
-    @OneToMany(mappedBy = "game")
+    @OneToMany(mappedBy = "game", orphanRemoval = true)
     private List<Vote> votes;
 
     @ManyToMany(cascade = { CascadeType.MERGE })
