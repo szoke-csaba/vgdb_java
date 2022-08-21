@@ -60,6 +60,12 @@
             </span>
           </div>
         </div>
+        <div class="grid grid-cols-3 border p-3 border-b-0" v-if="numberOfVotes">
+          <div>Votes</div>
+          <div class="col-span-2">
+            {{ numberOfVotes }} votes total, average {{ averageRating }}
+          </div>
+        </div>
         <div class="grid grid-cols-3 border p-3 border-b-0 items-center" v-if="currentUser">
           <div>My vote</div>
           <div class="col-span-2">
@@ -110,6 +116,8 @@
         pageTitle: '',
         userVote: 0,
         voteSaved: false,
+        numberOfVotes: 0,
+        averageRating: 0,
       }
     },
     setup() {
@@ -163,6 +171,8 @@
               this.game = response.data
               this.pageTitle = this.game.title
               this.game.screenshots.forEach(screenshot => this.imgs.push(screenshot.absoluteUrl))
+              this.numberOfVotes = response.data.votes.length
+              this.averageRating = response.data.averageRating
 
               document.title = this.game.title + ' | ' + process.env.VUE_APP_TITLE
             })

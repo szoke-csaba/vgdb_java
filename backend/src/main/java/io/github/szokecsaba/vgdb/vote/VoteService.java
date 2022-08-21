@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 import static io.github.szokecsaba.vgdb.game.GameService.GAME_NOT_FOUND;
@@ -26,6 +27,7 @@ public class VoteService {
         this.userRepository = userRepository;
     }
 
+    @Transactional
     public ResponseEntity<?> addVote(String email, long gameId, int vote) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND + gameId));

@@ -22,6 +22,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.OptionalDouble;
 import java.util.Set;
 
 @Data
@@ -111,5 +112,11 @@ public class Game {
 
     public String getThumbnailAbsolute() {
         return thumbnail != null ? THUMBNAIL_URL + thumbnail : DEFAULT_THUMBNAIL;
+    }
+
+    public double getAverageRating() {
+        OptionalDouble average = votes.stream().mapToDouble(Vote::getVote).average();
+
+        return Math.round(average.orElse(0) * 100.d) / 100.0d;
     }
 }
