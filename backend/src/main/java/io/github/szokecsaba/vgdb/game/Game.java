@@ -7,6 +7,7 @@ import io.github.szokecsaba.vgdb.platform.Platform;
 import io.github.szokecsaba.vgdb.publisher.Publisher;
 import io.github.szokecsaba.vgdb.screenshot.Screenshot;
 import io.github.szokecsaba.vgdb.tag.Tag;
+import io.github.szokecsaba.vgdb.userList.UserList;
 import io.github.szokecsaba.vgdb.vote.Vote;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -61,6 +62,9 @@ public class Game {
 
     @OneToMany(mappedBy = "game", orphanRemoval = true)
     private List<Vote> votes;
+
+    @OneToMany(mappedBy = "game", orphanRemoval = true)
+    private List<UserList> lists;
 
     @ManyToMany(cascade = { CascadeType.MERGE })
     @JoinTable(

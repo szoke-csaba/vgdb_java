@@ -1,4 +1,4 @@
-package io.github.szokecsaba.vgdb.vote;
+package io.github.szokecsaba.vgdb.userList;
 
 import io.github.szokecsaba.vgdb.game.Game;
 import io.github.szokecsaba.vgdb.game.GameNotFoundException;
@@ -10,56 +10,57 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.Optional;
 
 import static io.github.szokecsaba.vgdb.game.GameService.GAME_NOT_FOUND;
 import static io.github.szokecsaba.vgdb.user.UserService.USER_NOT_FOUND;
 
 @Service
-public class VoteService {
+public class UserListService {
     private final GameRepository gameRepository;
-    private final VoteRepository voteRepository;
+    private final UserListRepository userListRepository;
     private final UserRepository userRepository;
 
-    public VoteService(GameRepository gameRepository, VoteRepository voteRepository, UserRepository userRepository) {
+    public UserListService(GameRepository gameRepository, UserListRepository userListRepository, UserRepository userRepository) {
         this.gameRepository = gameRepository;
-        this.voteRepository = voteRepository;
+        this.userListRepository = userListRepository;
         this.userRepository = userRepository;
     }
 
     @Transactional
-    public ResponseEntity<?> addVote(String email, long gameId, int vote) {
-        if (vote > 10 || vote < 0) {
-            throw new InvalidVoteValueException("Vote should be between 1-10!");
+    public ResponseEntity<?> changeListType(String email, long gameId, String listType) {
+        if (!listType.equals("0") && Arrays.stream(UserListType.values()).noneMatch((t) -> t.name().equals(listType))) {
+            throw new UserListNotFoundException("User list not found: " + listType);
         }
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND + gameId));
         Game game = gameRepository.findById(gameId)
                 .orElseThrow(() -> new GameNotFoundException(GAME_NOT_FOUND + gameId));
 
-        voteRepository.deleteByGameAndUser(game, user);
+        userListRepository.deleteByGameAndUser(game, user);
 
-        if (vote != 0) {
-            Vote newVote = new Vote(0, vote, game, user);
-            voteRepository.save(newVote);
+        if (!listType.equals("0")) {
+            UserList newList = new UserList(0, UserListType.valueOf(listType), game, user);
+            userListRepository.save(newList);
         }
 
         return ResponseEntity.ok().build();
     }
 
-    public ResponseEntity<?> getVote(String email, long gameId) {
+    public ResponseEntity<?> getListType(String email, long gameId) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND + gameId));
         Game game = gameRepository.findById(gameId)
                 .orElseThrow(() -> new GameNotFoundException(GAME_NOT_FOUND + gameId));
 
-        Optional<Vote> vote = voteRepository.getVoteByGameAndUser(game, user);
-        int gameVote = 0;
+        Optional<UserList> vote = userListRepository.getUserListByGameAndUser(game, user);
+        String listType = "0";
 
         if (vote.isPresent()) {
-            gameVote = vote.get().getVote();
+            listType = vote.get().getType().toString();
         }
 
-        return ResponseEntity.ok().body(gameVote);
+        return ResponseEntity.ok().body(listType);
     }
 }

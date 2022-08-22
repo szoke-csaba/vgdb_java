@@ -86,12 +86,27 @@
             </div>
           </div>
         </div>
+        <div class="grid grid-cols-3 border p-3 border-b-0 items-center" v-if="currentUser">
+          <div>My lists</div>
+          <div class="col-span-2">
+            <div class="form-control w-36">
+              <select class="select select-sm select-bordered" @change="changeListType" v-model="userListType">
+                <option value="0">Not on my list</option>
+                <option value="PLAN_TO_PLAY">Plan to play</option>
+                <option value="PLAYING">Playing</option>
+                <option value="PLAYED">Played</option>
+                <option value="ON_HOLD">On hold</option>
+                <option value="DROPPED">Dropped</option>
+              </select>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="toast toast-start" v-if="voteSaved">
-      <div class="alert alert-success">
+    <div class="toast toast-start" v-if="message">
+      <div class="alert" :class="success ? 'alert-success' : 'alert-error'">
         <div>
-          <span>Vote saved.</span>
+          <span>{{ message }}</span>
         </div>
       </div>
     </div>
@@ -107,6 +122,7 @@
 <script>
   import Game from "@/services/game"
   import Vote from "@/services/vote"
+  import UserList from "@/services/user-list"
   import { ref } from 'vue'
 
   export default {
@@ -115,9 +131,11 @@
         game: null,
         pageTitle: '',
         userVote: 0,
-        voteSaved: false,
+        success: false,
+        message: '',
         numberOfVotes: 0,
         averageRating: 0,
+        userListType: 0,
       }
     },
     setup() {
@@ -147,9 +165,24 @@
       vote(el) {
         Vote.addVote(this.game.id, parseInt(this.userVote))
             .then(() => {
-              this.voteSaved = true
+              this.success = true
+              this.message = 'Vote saved.'
               el.target.blur()
-              setTimeout(() => this.voteSaved = false, 3000)
+              setTimeout(() => this.message = '', 3000)
+            })
+            .catch(e => {
+              this.success = false
+              this.message = e
+            })
+      },
+      changeListType(el) {
+        el.target.blur()
+        UserList.changeListType(this.game.id, this.userListType)
+            .then(() => {
+              this.success = true
+              this.message = 'List changed.'
+              el.target.blur()
+              setTimeout(() => this.message = '', 3000)
             })
             .catch(e => {
               this.success = false
@@ -191,10 +224,21 @@
               this.message = e
             })
       },
+      getListType(gameId) {
+        UserList.getListType(gameId)
+            .then(response => {
+              this.userListType = response.data
+            })
+            .catch(e => {
+              this.success = false
+              this.message = e
+            })
+      },
     },
     mounted() {
       if (this.currentUser) {
         this.getVote(this.$route.params.id)
+        this.getListType(this.$route.params.id)
       }
 
       this.getGame(this.$route.params.id)

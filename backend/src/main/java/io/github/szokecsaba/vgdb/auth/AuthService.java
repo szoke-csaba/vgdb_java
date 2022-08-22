@@ -1,7 +1,6 @@
 package io.github.szokecsaba.vgdb.auth;
 
 import io.github.szokecsaba.vgdb.security.TokenGenerator;
-import io.github.szokecsaba.vgdb.user.LoginResponse;
 import io.github.szokecsaba.vgdb.user.User;
 import io.github.szokecsaba.vgdb.user.UserAlreadyExistsException;
 import io.github.szokecsaba.vgdb.user.UserRepository;
