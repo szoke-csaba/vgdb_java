@@ -34,12 +34,18 @@
         </div>
       </router-link>
     </div>
+    <h1 v-if="games.length === 0" class="text-xl text-center">No games found</h1>
     <div class="btn-group mt-8 justify-center" v-if="paging.pages > 1">
       <router-link :to="{ name: 'games', query: { page: page, query: searchQuery, sort: sort } }"
                    v-for="(page, index) in paging.pages" :key="index"
               class="btn" :class="{ 'btn-disabled': page === paging.currentPage }">
         {{ page }}
       </router-link>
+    </div>
+    <div class="text-center mt-3" v-if="paging.totalNumOfItems">
+      <small>
+        {{ (paging.currentPage - 1) * paging.perPage + 1 }}-{{ paging.numOfItems + ((paging.currentPage - 1) * paging.perPage) }} ({{ paging.totalNumOfItems }})
+      </small>
     </div>
   </div>
 </template>

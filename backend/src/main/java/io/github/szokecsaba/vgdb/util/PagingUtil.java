@@ -55,9 +55,13 @@ public class PagingUtil {
     }
 
     public Map<String, Object> getResponse(Page<?> items, String itemsName) {
-        Map<String, Integer> paging = Map.of(
-                "pages", items.getTotalPages(),
-                "currentPage", currentPage + 1
+
+        Map<String, Long> paging = Map.of(
+                "pages", (long) items.getTotalPages(),
+                "currentPage", (long) currentPage + 1,
+                "numOfItems", (long) items.getNumberOfElements(),
+                "totalNumOfItems", items.getTotalElements(),
+                "perPage", (long) items.getSize()
         );
 
         return Map.of(
