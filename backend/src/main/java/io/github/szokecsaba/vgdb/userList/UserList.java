@@ -1,6 +1,8 @@
 package io.github.szokecsaba.vgdb.userList;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import io.github.szokecsaba.vgdb.game.Game;
 import io.github.szokecsaba.vgdb.user.User;
 import lombok.AllArgsConstructor;
@@ -14,6 +16,7 @@ import javax.persistence.*;
 @Table(name = "user_lists")
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class UserList {
     @Id
     @GeneratedValue(
@@ -27,7 +30,6 @@ public class UserList {
 
     @ManyToOne
     @JoinColumn(name = "game_id", nullable = false)
-    @JsonIgnore
     private Game game;
 
     @ManyToOne

@@ -39,7 +39,9 @@ public class AuthService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND + email));
 
-        LoginResponse response = new LoginResponse(user.getEmail(), user.getRole(), tokenGenerator.generate(user));
+        LoginResponse response = new LoginResponse(
+                user.getEmail(), user.getRole(), tokenGenerator.generate(user), user.getLists()
+        );
 
         return ResponseEntity.ok().body(response);
     }
