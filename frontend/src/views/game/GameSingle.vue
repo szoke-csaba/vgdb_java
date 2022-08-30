@@ -60,12 +60,6 @@
             </span>
           </div>
         </div>
-        <div class="grid grid-cols-3 border p-3 border-b-0" v-if="numberOfVotes">
-          <div>Votes</div>
-          <div class="col-span-2">
-            {{ numberOfVotes }} votes total, average {{ averageRating }}
-          </div>
-        </div>
         <div class="grid grid-cols-3 border p-3 border-b-0 items-center" v-if="currentUser">
           <div>My vote</div>
           <div class="col-span-2">
@@ -110,7 +104,19 @@
         </div>
       </div>
     </div>
-    <div class="flex flex-wrap justify-center gap-3 mt-10" v-if="imgs.length">
+    <div v-if="numberOfVotes">
+      <div class="flex flex-col-reverse mt-14 w-max m-auto">
+        <div class="flex items-center w-80" v-for="(numberOfVotes, rating) in numberOfVotesPerRating" :key="rating">
+          <div class="w-6">{{ rating }}</div>
+          <progress class="mx-3 progress h-4 bg-base-300" :value="calculateWidth(numberOfVotes)" max="100"></progress>
+          <div class="ml-auto">({{ numberOfVotes }})</div>
+        </div>
+      </div>
+      <div class="text-center mt-4">
+        {{ numberOfVotes }} votes total, average {{ averageRating }}
+      </div>
+    </div>
+    <div class="flex flex-wrap justify-center gap-3 mt-14" v-if="imgs.length">
       <div v-for="(src, index) in imgs" :key="index" class="cursor-pointer hover:outline w-72" @click="() => showImg(index)">
         <img :src="src" />
       </div>
@@ -136,6 +142,8 @@
         numberOfVotes: 0,
         averageRating: 0,
         userListType: 0,
+        numberOfVotesPerRating: null,
+        mostVotesForARating: 0,
       }
     },
     setup() {
@@ -162,6 +170,9 @@
       }
     },
     methods: {
+      calculateWidth(numberOfVotes) {
+        return numberOfVotes / this.mostVotesForARating * 100
+      },
       vote(el) {
         Vote.addVote(this.game.id, parseInt(this.userVote))
             .then(() => {
@@ -206,6 +217,8 @@
               this.game.screenshots.forEach(screenshot => this.imgs.push(screenshot.absoluteUrl))
               this.numberOfVotes = response.data.votes.length
               this.averageRating = response.data.averageRating
+              this.numberOfVotesPerRating = response.data.numberOfVotesPerRating
+              this.mostVotesForARating = response.data.mostVotesForARating
 
               document.title = this.game.title + ' | ' + process.env.VUE_APP_TITLE
             })

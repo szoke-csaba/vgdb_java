@@ -39,7 +39,7 @@
         </a>
       </div>
       <div>
-        <router-link :data-list-type="list.type" class="block" :to="{ name: 'game-single', params: { id: list.game.id } }"
+        <router-link :data-list-type="list.type" class="block hover:underline" :to="{ name: 'game-single', params: { id: list.game.id } }"
                      v-for="(list, index) in currentUser.lists" :key="index" v-show="list.type === activeTab">
           {{ list.game.title }}
         </router-link>

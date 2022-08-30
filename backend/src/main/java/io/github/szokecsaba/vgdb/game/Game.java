@@ -22,9 +22,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.OptionalDouble;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Data
 @Entity
@@ -119,8 +118,43 @@ public class Game {
     }
 
     public double getAverageRating() {
-        OptionalDouble average = votes.stream().mapToDouble(Vote::getVote).average();
+        OptionalDouble average = votes
+                .stream()
+                .mapToDouble(Vote::getVote)
+                .average();
 
         return Math.round(average.orElse(0) * 100.d) / 100.0d;
+    }
+
+    public Map<Integer, Long> getNumberOfVotesPerRating() {
+        Map<Integer, Long> response = votes.stream()
+                .collect(Collectors.groupingBy(
+                        Vote::getVote, Collectors.counting()
+                ));
+
+        return fillMissingRatingsWithZero(response);
+    }
+
+    public long getMostVotesForARating() {
+        Map<Integer, Long> map = getNumberOfVotesPerRating();
+
+        if (map.isEmpty()) {
+            return 0;
+        }
+
+        return Collections.max(
+                map.entrySet(),
+                (entry1, entry2) -> (int) (entry1.getValue() - entry2.getValue())
+        ).getValue();
+    }
+
+    private Map<Integer, Long> fillMissingRatingsWithZero(Map<Integer, Long> map) {
+        Map<Integer, Long> newMap = new HashMap<>();
+
+        for (int i = 1; i <= 10; i++) {
+            newMap.put(i, map.getOrDefault(i, 0L));
+        }
+
+        return newMap;
     }
 }
