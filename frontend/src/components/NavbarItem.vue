@@ -49,7 +49,7 @@
           </ul>
         </div>
         <div class="navbar-end">
-          <ul class="menu menu-horizontal p-0 bg-base-100 hidden md:inline-flex">
+          <ul class="menu menu-horizontal p-0 hidden md:inline-flex">
             <li v-if="!currentUser">
               <router-link :to="{ name: 'register' }">
                 <font-awesome-icon icon="user-plus" /> Register

@@ -2,6 +2,7 @@ package io.github.szokecsaba.vgdb.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import io.github.szokecsaba.vgdb.review.Review;
 import io.github.szokecsaba.vgdb.userList.UserList;
 import io.github.szokecsaba.vgdb.vote.Vote;
 import lombok.AllArgsConstructor;
@@ -50,6 +51,9 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user", orphanRemoval = true)
     private List<UserList> lists;
+
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    private List<Review> reviews;
 
     @CreationTimestamp
     private LocalDateTime created;

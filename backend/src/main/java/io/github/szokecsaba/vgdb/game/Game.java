@@ -1,10 +1,13 @@
 package io.github.szokecsaba.vgdb.game;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import io.github.szokecsaba.vgdb.developer.Developer;
 import io.github.szokecsaba.vgdb.genre.Genre;
 import io.github.szokecsaba.vgdb.platform.Platform;
 import io.github.szokecsaba.vgdb.publisher.Publisher;
+import io.github.szokecsaba.vgdb.review.Review;
 import io.github.szokecsaba.vgdb.screenshot.Screenshot;
 import io.github.szokecsaba.vgdb.tag.Tag;
 import io.github.szokecsaba.vgdb.userList.UserList;
@@ -31,6 +34,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "games")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Game {
     private static final String LOCAL_DATE_TIME_DEFAULT_FORMAT = "yyyy-MM-dd HH:mm:ss";
     private static final String THUMBNAIL_URL = "http://localhost:8081/api/images/games/thumbnails/";
@@ -104,6 +108,9 @@ public class Game {
             inverseJoinColumns = @JoinColumn(name = "platform_id")
     )
     private Set<Platform> platforms;
+
+    @OneToMany(mappedBy = "game", orphanRemoval = true)
+    private List<Review> reviews;
 
     @CreationTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = LOCAL_DATE_TIME_DEFAULT_FORMAT)
