@@ -7,7 +7,7 @@
       <h1 class="text-4xl pl-5">Add user</h1>
     </div>
     <div class="card-body">
-      <Form @submit="saveUser" :validation-schema="schema">
+      <ValidationForm @submit="saveUser" :validation-schema="schema">
         <div class="form-control">
           <label for="email" class="label">
             <span class="label-text">Email</span>
@@ -35,7 +35,7 @@
         <div class="form-control mt-6">
           <button class="btn btn-primary" :class="{ loading: loading }" :disabled="loading">Add</button>
         </div>
-      </Form>
+      </ValidationForm>
       <div class="alert alert-error shadow-lg" v-if="message">
         <div>
           <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
@@ -50,14 +50,14 @@
 
 <script>
   import User from '@/services/user'
-  import { ErrorMessage, Field, Form } from 'vee-validate'
+  import { ErrorMessage, Field, Form as ValidationForm } from 'vee-validate'
   import * as yup from 'yup'
   import { computed } from "vue"
   import { useHead } from "@vueuse/head"
 
   export default {
     components: {
-      Form,
+      ValidationForm,
       Field,
       ErrorMessage,
     },

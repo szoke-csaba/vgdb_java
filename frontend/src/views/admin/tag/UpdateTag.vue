@@ -7,7 +7,7 @@
       <h1 class="text-4xl pl-5">Update tag</h1>
     </div>
     <div class="card-body">
-      <Form @submit="updateTag" :validation-schema="schema">
+      <ValidationForm @submit="updateTag" :validation-schema="schema">
         <div class="form-control">
           <label for="name" class="label">
             <span class="label-text">Name</span>
@@ -18,7 +18,7 @@
         <div class="form-control mt-6">
           <button class="btn btn-primary" :class="{ loading: loading }" :disabled="loading">Update</button>
         </div>
-      </Form>
+      </ValidationForm>
       <div class="mt-3 shadow-lg alert" :class="success ? 'alert-success' : 'alert-error'" v-if="message">
         <div>
           <svg v-if="success" xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
@@ -36,12 +36,12 @@
 
 <script>
   import Tag from '@/services/tag'
-  import { ErrorMessage, Field, Form } from 'vee-validate'
+  import { ErrorMessage, Field, Form as ValidationForm } from 'vee-validate'
   import * as yup from 'yup'
 
   export default {
     components: {
-      Form,
+      ValidationForm,
       Field,
       ErrorMessage
     },

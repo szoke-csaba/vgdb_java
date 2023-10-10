@@ -7,7 +7,7 @@
       <h1 class="text-4xl pl-5">Add tag</h1>
     </div>
     <div class="card-body">
-      <Form @submit="saveTag" :validation-schema="schema">
+      <ValidationForm @submit="saveTag" :validation-schema="schema">
         <div class="form-control">
           <label for="name" class="label">
             <span class="label-text">Name</span>
@@ -18,7 +18,7 @@
         <div class="form-control mt-6">
           <button class="btn btn-primary" :class="{ loading: loading }" :disabled="loading">Add</button>
         </div>
-      </Form>
+      </ValidationForm>
       <div class="alert alert-error shadow-lg" v-if="message">
         <div>
           <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
@@ -33,14 +33,14 @@
 
 <script>
   import Tag from '@/services/tag'
-  import { ErrorMessage, Field, Form } from 'vee-validate'
+  import { ErrorMessage, Field, Form as ValidationForm } from 'vee-validate'
   import * as yup from 'yup'
   import { computed } from "vue"
   import { useHead } from "@vueuse/head"
 
   export default {
     components: {
-      Form,
+      ValidationForm,
       Field,
       ErrorMessage,
     },

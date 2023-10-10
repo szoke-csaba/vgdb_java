@@ -2,7 +2,10 @@
 module.exports = {
   content: ['./src/**/*.{vue,js}'],
   theme: {
-    extend: {},
+    extend: {}
   },
-  plugins: [require("daisyui")],
+  plugins: [require('daisyui')],
+  daisyui: {
+    themes: ['dark', 'cupcake']
+  }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="drawer drawer-mobile">
+  <div class="drawer lg:drawer-open">
     <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content">
       <label for="my-drawer-2" class="btn btn-sm btn-primary drawer-button lg:hidden">Menu</label>
@@ -56,21 +56,7 @@
             <font-awesome-icon icon="fa-solid fa-house" /> Home
           </router-link>
         </li>
-<!--        <li class="items-start">-->
-<!--          <ThemeSwitcher />-->
-<!--        </li>-->
       </ul>
     </div>
   </div>
 </template>
-
-<!-- TODO: doesn't work after switching layouts -->
-<!--<script>-->
-<!--  import ThemeSwitcher from '@/components/ThemeSwitcher'-->
-
-<!--  export default {-->
-<!--    components: {-->
-<!--      ThemeSwitcher-->
-<!--    }-->
-<!--  }-->
-<!--</script>-->

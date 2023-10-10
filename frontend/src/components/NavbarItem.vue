@@ -65,7 +65,7 @@
             <label tabindex="0" class="btn btn-ghost rounded-btn">
               <div class="avatar">
                 <div class="w-10 rounded-full">
-                  <img src="https://placeimg.com/40/40/animals"  alt="user avatar"/>
+                  <img src="https://picsum.photos/40/40"  alt="user avatar"/>
                 </div>
               </div>
             </label>

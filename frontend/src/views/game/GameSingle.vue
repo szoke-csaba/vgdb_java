@@ -113,11 +113,11 @@
             <div class="modal-box w-11/12 max-w-5xl">
               <label for="write-review" id="close-write-review" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
               <h1 class="text-2xl text-center pb-5">Write review</h1>
-              <Form @submit="postReview" :validation-schema="schema">
+              <ValidationForm @submit="postReview" :validation-schema="schema">
                 <ErrorMessage name="text" class="error-feedback text-red-400" />
                 <Field as="textarea" class="textarea textarea-bordered w-full" rows="20" name="text"></Field>
                 <button class="mt-3 btn">Submit</button>
-              </Form>
+              </ValidationForm>
             </div>
           </label>
         </div>
@@ -181,7 +181,7 @@
 </template>
 
 <script>
-  import { Form, Field, ErrorMessage } from 'vee-validate'
+  import { Form as ValidationForm, Field, ErrorMessage } from 'vee-validate'
   import * as yup from 'yup'
   import Game from "@/services/game"
   import Vote from "@/services/vote"
@@ -191,7 +191,7 @@
 
   export default {
     components: {
-      Form,
+      ValidationForm,
       Field,
       ErrorMessage,
     },

@@ -12,7 +12,7 @@
         <a class="tab tab-bordered" @click="activeTab = 2" :class="{ 'tab-active': activeTab === 2 }">Relations</a>
         <a class="tab tab-bordered" @click="activeTab = 3" :class="{ 'tab-active': activeTab === 3 }">Images</a>
       </div>
-      <Form @submit="submitForm" :validation-schema="schema">
+      <ValidationForm @submit="submitForm" :validation-schema="schema">
         <div v-show="activeTab === 1">
           <div class="form-control">
             <label for="title" class="label">
@@ -197,7 +197,7 @@
             </label>
             <Field id="thumbnail" name="thumbnail" type="file" class="mb-3" accept="image/png, image/jpeg" />
             <img :src="currentGame.thumbnailAbsolute" :alt="currentGame.title + ' thumbnail'"
-                 v-if="!addPage && !currentGame.thumbnailAbsolute.startsWith('https://placeimg.com')">
+                 v-if="!addPage && !currentGame.thumbnailAbsolute.startsWith('https://picsum.photos')">
             <ErrorMessage name="thumbnail" class="error-feedback text-red-400" />
           </div>
           <div class="form-control">
@@ -220,7 +220,7 @@
         <div class="form-control mt-6">
           <button class="btn btn-primary" :class="{ loading: loading }" :disabled="loading">{{ mainTitle }}</button>
         </div>
-      </Form>
+      </ValidationForm>
       <div class="mt-3 shadow-lg alert" :class="success ? 'alert-success' : 'alert-error'" v-if="message">
         <div>
           <svg v-if="success" xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
@@ -243,7 +243,7 @@
   import Developer from '@/services/developer'
   import Publisher from '@/services/publisher'
   import Platform from '@/services/platform'
-  import { ErrorMessage, Field, Form } from 'vee-validate'
+  import { ErrorMessage, Field, Form as ValidationForm } from 'vee-validate'
   import * as yup from 'yup'
   import { computed } from "vue"
   import { useHead } from "@vueuse/head"
@@ -251,7 +251,7 @@
 
   export default {
     components: {
-      Form,
+      ValidationForm,
       Field,
       ErrorMessage,
       VueMultiselect

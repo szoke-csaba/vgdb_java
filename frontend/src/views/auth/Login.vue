@@ -8,7 +8,7 @@
   <div class="card flex-shrink-0 max-w-sm shadow-2xl bg-base-100 mx-auto">
     <div class="card-body">
       <h1 class="card-title">Login</h1>
-      <Form @submit="handleLogin" :validation-schema="schema">
+      <ValidationForm @submit="handleLogin" :validation-schema="schema">
         <div class="form-control">
           <label for="email" class="label">
             <span class="label-text">Email</span>
@@ -26,7 +26,7 @@
         <div class="form-control mt-6">
           <button class="btn btn-primary" :class="{ loading: loading }" :disabled="loading">Login</button>
         </div>
-      </Form>
+      </ValidationForm>
       <div class="alert alert-error shadow-lg" v-if="message">
         <div>
           <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-  import { Form, Field, ErrorMessage } from 'vee-validate'
+  import { Form as ValidationForm, Field, ErrorMessage } from 'vee-validate'
   import * as yup from 'yup'
   import { computed } from "vue"
   import { useHead } from "@vueuse/head"
@@ -48,7 +48,7 @@
   export default {
     name: 'LoginPage',
     components: {
-      Form,
+      ValidationForm,
       Field,
       ErrorMessage,
     },
