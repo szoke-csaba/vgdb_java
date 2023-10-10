@@ -49,35 +49,35 @@
 </template>
 
 <script>
-  import { computed } from "vue"
-  import { useHead } from "@vueuse/head"
+  import { computed } from 'vue'
+  import { useHead } from '@vueuse/head'
 
   export default {
     name: 'ProfilePage',
-    data() {
+    data () {
       return {
         activeTab: 'PLAYING',
         planToPlayCount: 0,
         playingCount: 0,
         playedCount: 0,
         onHoldCount: 0,
-        droppedCount: 0,
+        droppedCount: 0
       }
     },
     computed: {
-      currentUser() {
+      currentUser () {
         return this.$store.state.auth.user
       }
     },
-    mounted() {
+    mounted () {
       this.countLists()
 
       useHead({
-        title: computed(() => 'Profile | ' + process.env.VUE_APP_TITLE),
+        title: computed(() => 'Profile | ' + process.env.VUE_APP_TITLE)
       })
     },
     methods: {
-      countLists() {
+      countLists () {
         this.planToPlayCount = document.querySelectorAll('[data-list-type=PLAN_TO_PLAY]').length
         this.playingCount = document.querySelectorAll('[data-list-type=PLAYING]').length
         this.playedCount = document.querySelectorAll('[data-list-type=PLAYED]').length

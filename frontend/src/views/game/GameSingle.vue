@@ -183,23 +183,23 @@
 <script>
   import { Form as ValidationForm, Field, ErrorMessage } from 'vee-validate'
   import * as yup from 'yup'
-  import Game from "@/services/game"
-  import Vote from "@/services/vote"
-  import UserList from "@/services/user-list"
-  import Review from "@/services/review"
+  import Game from '@/services/game'
+  import Vote from '@/services/vote'
+  import UserList from '@/services/user-list'
+  import Review from '@/services/review'
   import { ref } from 'vue'
 
   export default {
     components: {
       ValidationForm,
       Field,
-      ErrorMessage,
+      ErrorMessage
     },
-    data() {
+    data () {
       const schema = yup.object().shape({
         text: yup
-            .string()
-            .required("You can't send an empty review!")
+          .string()
+          .required("You can't send an empty review!")
       })
 
       return {
@@ -217,7 +217,7 @@
         schema
       }
     },
-    setup() {
+    setup () {
       const visibleRef = ref(false)
       const indexRef = ref(0)
       const imgs = []
@@ -225,7 +225,9 @@
         indexRef.value = index
         visibleRef.value = true
       }
-      const onHide = () => visibleRef.value = false
+      const onHide = () => {
+        visibleRef.value = false
+      }
 
       return {
         visibleRef,
@@ -236,63 +238,66 @@
       }
     },
     computed: {
-      currentUser() {
+      currentUser () {
         return this.$store.state.auth.user
       }
     },
     methods: {
-      postReview(review, { resetForm }) {
-
+      postReview (review, { resetForm }) {
         Review.post(this.game.id, review.text)
           .then(() => {
             resetForm()
             document.getElementById('close-write-review').click()
           })
       },
-      toggleReviewsCollapseArrow() {
+      toggleReviewsCollapseArrow () {
         this.reviewsCollapsed = this.reviewsCollapsed === 'up' ? 'down' : 'up'
       },
-      truncateTextNeeded(text) {
+      truncateTextNeeded (text) {
         return text.length > 150
       },
-      truncateText(text) {
+      truncateText (text) {
         if (text.length > 150) {
           text = text.substring(0, 150) + '...'
         }
 
         return text
       },
-      calculateWidth(numberOfVotes) {
+      calculateWidth (numberOfVotes) {
         return numberOfVotes / this.mostVotesForARating * 100
       },
-      vote(el) {
+      vote (el) {
         Vote.addVote(this.game.id, parseInt(this.userVote))
-            .then(() => {
-              this.success = true
-              this.message = 'Vote saved.'
-              el.target.blur()
-              setTimeout(() => this.message = '', 3000)
-            })
-            .catch(e => {
-              this.success = false
-              this.message = e
-            })
+          .then(() => {
+            this.success = true
+            this.message = 'Vote saved.'
+            el.target.blur()
+            setTimeout(() => {
+              this.message = ''
+            }, 3000)
+          })
+          .catch(e => {
+            this.success = false
+            this.message = e
+          })
       },
-      changeListType(el) {
+      changeListType (el) {
         el.target.blur()
         UserList.changeListType(this.game.id, this.userListType)
-            .then(() => {
-              this.success = true
-              this.message = 'List changed.'
-              el.target.blur()
-              setTimeout(() => this.message = '', 3000)
-            })
-            .catch(e => {
-              this.success = false
-              this.message = e
-            })
+          .then(() => {
+            this.success = true
+            this.message = 'List changed.'
+            el.target.blur()
+            setTimeout(() => {
+              this.message = ''
+            }, 3000)
+          })
+          .catch(e => {
+            this.success = false
+            this.message = e
+          })
       },
-      itemWithCommaIfNotLast(list, index) {
+      itemWithCommaIfNotLast (list, index) {
         let item = list[index].name
 
         if (index + 1 < list.length) {
@@ -301,48 +306,46 @@
 
         return item
       },
-      getGame(id) {
+      getGame (id) {
         Game.get(id)
-            .then(response => {
-              this.game = response.data
-              this.pageTitle = this.game.title
-              this.game.screenshots.forEach(screenshot => this.imgs.push(screenshot.absoluteUrl))
-              this.numberOfVotes = response.data.votes.length
-              this.averageRating = response.data.averageRating
-              this.numberOfVotesPerRating = response.data.numberOfVotesPerRating
-              this.mostVotesForARating = response.data.mostVotesForARating
+          .then(response => {
+            this.game = response.data
+            this.pageTitle = this.game.title
+            this.game.screenshots.forEach(screenshot => this.imgs.push(screenshot.absoluteUrl))
+            this.numberOfVotes = response.data.votes.length
+            this.averageRating = response.data.averageRating
+            this.numberOfVotesPerRating = response.data.numberOfVotesPerRating
+            this.mostVotesForARating = response.data.mostVotesForARating
 
-              console.log(response.data)
-
-              document.title = this.game.title + ' | ' + process.env.VUE_APP_TITLE
-            })
-            .catch(e => {
-              this.success = false
-              this.message = e
-            })
+            document.title = this.game.title + ' | ' + process.env.VUE_APP_TITLE
+          })
+          .catch(e => {
+            this.success = false
+            this.message = e
+          })
       },
-      getVote(gameId) {
+      getVote (gameId) {
         Vote.getVote(gameId)
-            .then(response => {
-              this.userVote = response.data
-            })
-            .catch(e => {
-              this.success = false
-              this.message = e
-            })
+          .then(response => {
+            this.userVote = response.data
+          })
+          .catch(e => {
+            this.success = false
+            this.message = e
+          })
       },
-      getListType(gameId) {
+      getListType (gameId) {
         UserList.getListType(gameId)
-            .then(response => {
-              this.userListType = response.data
-            })
-            .catch(e => {
-              this.success = false
-              this.message = e
-            })
-      },
+          .then(response => {
+            this.userListType = response.data
+          })
+          .catch(e => {
+            this.success = false
+            this.message = e
+          })
+      }
     },
-    mounted() {
+    mounted () {
       if (this.currentUser) {
         this.getVote(this.$route.params.id)
         this.getListType(this.$route.params.id)

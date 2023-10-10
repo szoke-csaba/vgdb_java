@@ -42,45 +42,44 @@
 
 <script>
   import Genre from '@/services/genre'
-  import { computed } from "vue"
-  import { useHead } from "@vueuse/head"
+  import { computed } from 'vue'
+  import { useHead } from '@vueuse/head'
 
   export default {
-    data() {
+    data () {
       return {
         genres: [],
         paging: [],
-        currentPage: this.$route.query.page,
+        currentPage: this.$route.query.page
       }
     },
     methods: {
-      retrieveGenres() {
+      retrieveGenres () {
         Genre.getAll(this.currentPage, process.env.VUE_APP_ADMIN_PAGE_SIZE)
-            .then(response => {
-              this.genres = response.data.genres
-              this.paging = response.data.paging
-            })
-            .catch(e => {
-              alert(e)
-            })
+          .then(response => {
+            this.genres = response.data.genres
+            this.paging = response.data.paging
+          })
+          .catch(e => {
+            alert(e)
+          })
       },
-      deleteGenre(id) {
+      deleteGenre (id) {
         Genre.delete(id)
-            .then(() => {
-              const index = this.genres.findIndex(post => post.id === id)
-              if (~index)
-                this.genres.splice(index, 1)
-            })
-            .catch(e => {
-              alert(e)
-            })
-      },
+          .then(() => {
+            const index = this.genres.findIndex(post => post.id === id)
+            if (~index) { this.genres.splice(index, 1) }
+          })
+          .catch(e => {
+            alert(e)
+          })
+      }
     },
-    mounted() {
+    mounted () {
       this.retrieveGenres()
 
       useHead({
-        title: computed(() => 'Admin - Genres | ' + process.env.VUE_APP_TITLE),
+        title: computed(() => 'Admin - Genres | ' + process.env.VUE_APP_TITLE)
       })
     }
   }

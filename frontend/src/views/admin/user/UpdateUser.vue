@@ -52,7 +52,7 @@
 </template>
 
 <script>
-  import User from "@/services/user"
+  import User from '@/services/user'
   import { ErrorMessage, Field, Form as ValidationForm } from 'vee-validate'
   import * as yup from 'yup'
 
@@ -62,23 +62,23 @@
       Field,
       ErrorMessage
     },
-    data() {
+    data () {
       const schema = yup.object().shape({
         email: yup
-            .string()
-            .email()
-            .required('Email is required!')
-            .max(50, 'Must be maximum 50 characters!'),
+          .string()
+          .email()
+          .required('Email is required!')
+          .max(50, 'Must be maximum 50 characters!'),
         password: yup
-            .string()
-            .notRequired()
-            .min(4, 'Must be at least 4 characters!')
-            .nullable()
-            .max(20, 'Must be maximum 20 characters!')
-            .transform((value) => value ? value : null),
+          .string()
+          .notRequired()
+          .min(4, 'Must be at least 4 characters!')
+          .nullable()
+          .max(20, 'Must be maximum 20 characters!')
+          .transform((value) => value || null),
         role: yup
-            .string()
-            .required('Rank is required!'),
+          .string()
+          .required('Rank is required!')
       })
 
       return {
@@ -92,43 +92,43 @@
       }
     },
     methods: {
-      getUser(id) {
+      getUser (id) {
         User.get(id)
-            .then(response => {
-              this.currentUser = response.data
-              document.title = 'Admin - ' + this.currentUser.email + ' | ' + process.env.VUE_APP_TITLE
-            })
-            .catch(e => {
-              this.success = false
-              this.message = e
-            })
+          .then(response => {
+            this.currentUser = response.data
+            document.title = 'Admin - ' + this.currentUser.email + ' | ' + process.env.VUE_APP_TITLE
+          })
+          .catch(e => {
+            this.success = false
+            this.message = e
+          })
       },
-      updateUser() {
+      updateUser () {
         this.loading = true
         this.success = false
         this.message = ''
         this.currentUser.password = this.password
 
         User.update(this.currentUser.id, this.currentUser)
-            .then(() => {
-              this.loading = false
-              this.success = true
-              this.password = ''
-              this.message = 'The user was updated successfully!'
-            })
-            .catch(error => {
-              this.loading = false
-              this.success = false
-              this.message =
-                  (error.response &&
-                      error.response.data &&
-                      error.response.data.message) ||
-                  error.message ||
-                  error.toString()
-            })
-      },
+          .then(() => {
+            this.loading = false
+            this.success = true
+            this.password = ''
+            this.message = 'The user was updated successfully!'
+          })
+          .catch(error => {
+            this.loading = false
+            this.success = false
+            this.message =
+              (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+              error.message ||
+              error.toString()
+          })
+      }
     },
-    mounted() {
+    mounted () {
       this.getUser(this.$route.params.id)
     }
   }

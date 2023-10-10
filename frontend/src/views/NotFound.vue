@@ -17,13 +17,13 @@
 </template>
 
 <script>
-  import { computed } from "vue"
-  import { useHead } from "@vueuse/head"
+  import { computed } from 'vue'
+  import { useHead } from '@vueuse/head'
 
   export default {
-    mounted() {
+    mounted () {
       useHead({
-        title: computed(() => '404 - Page not found | ' + process.env.VUE_APP_TITLE),
+        title: computed(() => '404 - Page not found | ' + process.env.VUE_APP_TITLE)
       })
     }
   }

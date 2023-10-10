@@ -48,45 +48,44 @@
 
 <script>
   import Game from '@/services/game'
-  import { computed } from "vue"
-  import { useHead } from "@vueuse/head"
+  import { computed } from 'vue'
+  import { useHead } from '@vueuse/head'
 
   export default {
-    data() {
+    data () {
       return {
         games: [],
         paging: [],
-        currentPage: this.$route.query.page,
+        currentPage: this.$route.query.page
       }
     },
     methods: {
-      retrieveGames() {
+      retrieveGames () {
         Game.getAll(this.currentPage, process.env.VUE_APP_ADMIN_PAGE_SIZE)
-            .then(response => {
-              this.games = response.data.games
-              this.paging = response.data.paging
-            })
-            .catch(e => {
-              alert(e)
-            })
+          .then(response => {
+            this.games = response.data.games
+            this.paging = response.data.paging
+          })
+          .catch(e => {
+            alert(e)
+          })
       },
-      deleteGame(id) {
+      deleteGame (id) {
         Game.delete(id)
-            .then(() => {
-              const index = this.games.findIndex(post => post.id === id)
-              if (~index)
-                this.games.splice(index, 1)
-            })
-            .catch(e => {
-              alert(e)
-            })
-      },
+          .then(() => {
+            const index = this.games.findIndex(post => post.id === id)
+            if (~index) { this.games.splice(index, 1) }
+          })
+          .catch(e => {
+            alert(e)
+          })
+      }
     },
-    mounted() {
+    mounted () {
       this.retrieveGames()
 
       useHead({
-        title: computed(() => 'Admin - Games | ' + process.env.VUE_APP_TITLE),
+        title: computed(() => 'Admin - Games | ' + process.env.VUE_APP_TITLE)
       })
     }
   }

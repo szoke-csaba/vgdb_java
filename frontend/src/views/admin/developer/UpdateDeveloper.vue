@@ -45,12 +45,12 @@
       Field,
       ErrorMessage
     },
-    data() {
+    data () {
       const schema = yup.object().shape({
         name: yup
-            .string()
-            .required('Name is required!')
-            .max(50, 'Must be maximum 50 characters!'),
+          .string()
+          .required('Name is required!')
+          .max(50, 'Must be maximum 50 characters!')
       })
 
       return {
@@ -63,41 +63,41 @@
       }
     },
     methods: {
-      getDeveloper(id) {
+      getDeveloper (id) {
         Developer.get(id)
-            .then(response => {
-              this.currentDeveloper = response.data
-              document.title = 'Admin - ' + this.currentDeveloper.name + ' | ' + process.env.VUE_APP_TITLE
-            })
-            .catch(e => {
-              this.success = false
-              this.message = e
-            })
+          .then(response => {
+            this.currentDeveloper = response.data
+            document.title = 'Admin - ' + this.currentDeveloper.name + ' | ' + process.env.VUE_APP_TITLE
+          })
+          .catch(e => {
+            this.success = false
+            this.message = e
+          })
       },
-      updateDeveloper() {
+      updateDeveloper () {
         this.loading = true
         this.success = false
         this.message = ''
 
         Developer.update(this.currentDeveloper.id, this.currentDeveloper)
-            .then(() => {
-              this.loading = false
-              this.success = true
-              this.message = 'The developer was updated successfully!'
-            })
-            .catch(error => {
-              this.loading = false
-              this.success = false
-              this.message =
-                  (error.response &&
-                      error.response.data &&
-                      error.response.data.message) ||
-                  error.message ||
-                  error.toString()
-            })
-      },
+          .then(() => {
+            this.loading = false
+            this.success = true
+            this.message = 'The developer was updated successfully!'
+          })
+          .catch(error => {
+            this.loading = false
+            this.success = false
+            this.message =
+              (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+              error.message ||
+              error.toString()
+          })
+      }
     },
-    mounted() {
+    mounted () {
       this.getDeveloper(this.$route.params.id)
     }
   }

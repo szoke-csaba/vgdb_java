@@ -35,52 +35,52 @@
   import Developer from '@/services/developer'
   import { ErrorMessage, Field, Form as ValidationForm } from 'vee-validate'
   import * as yup from 'yup'
-  import { computed } from "vue"
-  import { useHead } from "@vueuse/head"
+  import { computed } from 'vue'
+  import { useHead } from '@vueuse/head'
 
   export default {
     components: {
       ValidationForm,
       Field,
-      ErrorMessage,
+      ErrorMessage
     },
-    data() {
+    data () {
       const schema = yup.object().shape({
         name: yup
-            .string()
-            .required('Name is required!')
-            .max(50, 'Must be maximum 50 characters!'),
+          .string()
+          .required('Name is required!')
+          .max(50, 'Must be maximum 50 characters!')
       })
 
       return {
         loading: false,
         message: '',
-        schema,
+        schema
       }
     },
     methods: {
-      saveDeveloper(developer) {
+      saveDeveloper (developer) {
         this.message = ''
         this.loading = true
 
         Developer.create(developer)
-            .then(() => {
-              this.$router.push({name: 'admin-developers'})
-            })
-            .catch(error => {
-              this.loading = false
-              this.message =
-                  (error.response &&
-                      error.response.data &&
-                      error.response.data.message) ||
-                  error.message ||
-                  error.toString()
-            })
-      },
+          .then(() => {
+            this.$router.push({ name: 'admin-developers' })
+          })
+          .catch(error => {
+            this.loading = false
+            this.message =
+              (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+              error.message ||
+              error.toString()
+          })
+      }
     },
-    mounted() {
+    mounted () {
       useHead({
-        title: computed(() => 'Admin - Add developer | ' + process.env.VUE_APP_TITLE),
+        title: computed(() => 'Admin - Add developer | ' + process.env.VUE_APP_TITLE)
       })
     }
   }

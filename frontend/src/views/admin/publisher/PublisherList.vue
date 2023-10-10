@@ -42,45 +42,44 @@
 
 <script>
   import Publisher from '@/services/publisher'
-  import { computed } from "vue"
-  import { useHead } from "@vueuse/head"
+  import { computed } from 'vue'
+  import { useHead } from '@vueuse/head'
 
   export default {
-    data() {
+    data () {
       return {
         publishers: [],
         paging: [],
-        currentPage: this.$route.query.page,
+        currentPage: this.$route.query.page
       }
     },
     methods: {
-      retrievePublishers() {
+      retrievePublishers () {
         Publisher.getAll(this.currentPage, process.env.VUE_APP_ADMIN_PAGE_SIZE)
-            .then(response => {
-              this.publishers = response.data.publishers
-              this.paging = response.data.paging
-            })
-            .catch(e => {
-              alert(e)
-            })
+          .then(response => {
+            this.publishers = response.data.publishers
+            this.paging = response.data.paging
+          })
+          .catch(e => {
+            alert(e)
+          })
       },
-      deletePublisher(id) {
+      deletePublisher (id) {
         Publisher.delete(id)
-            .then(() => {
-              const index = this.publishers.findIndex(post => post.id === id)
-              if (~index)
-                this.publishers.splice(index, 1)
-            })
-            .catch(e => {
-              alert(e)
-            })
-      },
+          .then(() => {
+            const index = this.publishers.findIndex(post => post.id === id)
+            if (~index) { this.publishers.splice(index, 1) }
+          })
+          .catch(e => {
+            alert(e)
+          })
+      }
     },
-    mounted() {
+    mounted () {
       this.retrievePublishers()
 
       useHead({
-        title: computed(() => 'Admin - Publishers | ' + process.env.VUE_APP_TITLE),
+        title: computed(() => 'Admin - Publishers | ' + process.env.VUE_APP_TITLE)
       })
     }
   }

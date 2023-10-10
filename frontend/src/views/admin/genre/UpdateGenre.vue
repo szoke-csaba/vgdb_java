@@ -45,12 +45,12 @@
       Field,
       ErrorMessage
     },
-    data() {
+    data () {
       const schema = yup.object().shape({
         name: yup
-            .string()
-            .required('Name is required!')
-            .max(50, 'Must be maximum 50 characters!'),
+          .string()
+          .required('Name is required!')
+          .max(50, 'Must be maximum 50 characters!')
       })
 
       return {
@@ -63,41 +63,41 @@
       }
     },
     methods: {
-      getGenre(id) {
+      getGenre (id) {
         Genre.get(id)
-            .then(response => {
-              this.currentGenre = response.data
-              document.title = 'Admin - ' + this.currentGenre.name + ' | ' + process.env.VUE_APP_TITLE
-            })
-            .catch(e => {
-              this.success = false
-              this.message = e
-            })
+          .then(response => {
+            this.currentGenre = response.data
+            document.title = 'Admin - ' + this.currentGenre.name + ' | ' + process.env.VUE_APP_TITLE
+          })
+          .catch(e => {
+            this.success = false
+            this.message = e
+          })
       },
-      updateGenre() {
+      updateGenre () {
         this.loading = true
         this.success = false
         this.message = ''
 
         Genre.update(this.currentGenre.id, this.currentGenre)
-            .then(() => {
-              this.loading = false
-              this.success = true
-              this.message = 'The genre was updated successfully!'
-            })
-            .catch(error => {
-              this.loading = false
-              this.success = false
-              this.message =
-                  (error.response &&
-                      error.response.data &&
-                      error.response.data.message) ||
-                  error.message ||
-                  error.toString()
-            })
-      },
+          .then(() => {
+            this.loading = false
+            this.success = true
+            this.message = 'The genre was updated successfully!'
+          })
+          .catch(error => {
+            this.loading = false
+            this.success = false
+            this.message =
+              (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+              error.message ||
+              error.toString()
+          })
+      }
     },
-    mounted() {
+    mounted () {
       this.getGenre(this.$route.params.id)
     }
   }

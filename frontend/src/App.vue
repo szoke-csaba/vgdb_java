@@ -8,13 +8,13 @@
 
   export default {
     components: {
-      'default': DefaultLayout,
-      'admin': AdminLayout
+      default: DefaultLayout,
+      admin: AdminLayout
     },
     computed: {
       layout () {
-        return this.$route.meta.layout || "default"
+        return this.$route.meta.layout || 'default'
       }
-    },
+    }
   }
 </script>

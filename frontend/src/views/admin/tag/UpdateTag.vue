@@ -45,12 +45,12 @@
       Field,
       ErrorMessage
     },
-    data() {
+    data () {
       const schema = yup.object().shape({
         name: yup
-            .string()
-            .required('Name is required!')
-            .max(50, 'Must be maximum 50 characters!'),
+          .string()
+          .required('Name is required!')
+          .max(50, 'Must be maximum 50 characters!')
       })
 
       return {
@@ -63,41 +63,41 @@
       }
     },
     methods: {
-      getTag(id) {
+      getTag (id) {
         Tag.get(id)
-            .then(response => {
-              this.currentTag = response.data
-              document.title = 'Admin - ' + this.currentTag.name + ' | ' + process.env.VUE_APP_TITLE
-            })
-            .catch(e => {
-              this.success = false
-              this.message = e
-            })
+          .then(response => {
+            this.currentTag = response.data
+            document.title = 'Admin - ' + this.currentTag.name + ' | ' + process.env.VUE_APP_TITLE
+          })
+          .catch(e => {
+            this.success = false
+            this.message = e
+          })
       },
-      updateTag() {
+      updateTag () {
         this.loading = true
         this.success = false
         this.message = ''
 
         Tag.update(this.currentTag.id, this.currentTag)
-            .then(() => {
-              this.loading = false
-              this.success = true
-              this.message = 'The tag was updated successfully!'
-            })
-            .catch(error => {
-              this.loading = false
-              this.success = false
-              this.message =
-                  (error.response &&
-                      error.response.data &&
-                      error.response.data.message) ||
-                  error.message ||
-                  error.toString()
-            })
-      },
+          .then(() => {
+            this.loading = false
+            this.success = true
+            this.message = 'The tag was updated successfully!'
+          })
+          .catch(error => {
+            this.loading = false
+            this.success = false
+            this.message =
+              (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+              error.message ||
+              error.toString()
+          })
+      }
     },
-    mounted() {
+    mounted () {
       this.getTag(this.$route.params.id)
     }
   }

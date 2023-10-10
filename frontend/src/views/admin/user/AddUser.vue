@@ -52,61 +52,61 @@
   import User from '@/services/user'
   import { ErrorMessage, Field, Form as ValidationForm } from 'vee-validate'
   import * as yup from 'yup'
-  import { computed } from "vue"
-  import { useHead } from "@vueuse/head"
+  import { computed } from 'vue'
+  import { useHead } from '@vueuse/head'
 
   export default {
     components: {
       ValidationForm,
       Field,
-      ErrorMessage,
+      ErrorMessage
     },
-    data() {
+    data () {
       const schema = yup.object().shape({
         email: yup
-            .string()
-            .email('Email is invalid!')
-            .required('Email is required!')
-            .max(20, 'Must be maximum 20 characters!'),
+          .string()
+          .email('Email is invalid!')
+          .required('Email is required!')
+          .max(20, 'Must be maximum 20 characters!'),
         password: yup
-            .string()
-            .required('Password is required!')
-            .min(4, 'Must be at least 4 characters!')
-            .max(20, 'Must be maximum 20 characters!'),
+          .string()
+          .required('Password is required!')
+          .min(4, 'Must be at least 4 characters!')
+          .max(20, 'Must be maximum 20 characters!'),
         role: yup
-            .string()
-            .required('Rank is required!'),
+          .string()
+          .required('Rank is required!')
       })
 
       return {
         loading: false,
         message: '',
-        schema,
+        schema
       }
     },
     methods: {
-      saveUser(user) {
+      saveUser (user) {
         this.message = ''
         this.loading = true
 
         User.create(user)
-            .then(() => {
-              this.$router.push({name: 'admin-users'})
-            })
-            .catch(error => {
-              this.loading = false
-              this.message =
-                  (error.response &&
-                      error.response.data &&
-                      error.response.data.message) ||
-                  error.message ||
-                  error.toString()
-            })
-      },
+          .then(() => {
+            this.$router.push({ name: 'admin-users' })
+          })
+          .catch(error => {
+            this.loading = false
+            this.message =
+              (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+              error.message ||
+              error.toString()
+          })
+      }
     },
-    mounted() {
+    mounted () {
       useHead({
-        title: computed(() => 'Admin - Add user | ' + process.env.VUE_APP_TITLE),
+        title: computed(() => 'Admin - Add user | ' + process.env.VUE_APP_TITLE)
       })
     }
   }

@@ -42,45 +42,44 @@
 
 <script>
   import Tag from '@/services/tag'
-  import { computed } from "vue"
-  import { useHead } from "@vueuse/head"
+  import { computed } from 'vue'
+  import { useHead } from '@vueuse/head'
 
   export default {
-    data() {
+    data () {
       return {
         tags: [],
         paging: [],
-        currentPage: this.$route.query.page,
+        currentPage: this.$route.query.page
       }
     },
     methods: {
-      retrieveTags() {
+      retrieveTags () {
         Tag.getAll(this.currentPage, process.env.VUE_APP_ADMIN_PAGE_SIZE)
-            .then(response => {
-              this.tags = response.data.tags
-              this.paging = response.data.paging
-            })
-            .catch(e => {
-              alert(e)
-            })
+          .then(response => {
+            this.tags = response.data.tags
+            this.paging = response.data.paging
+          })
+          .catch(e => {
+            alert(e)
+          })
       },
-      deleteTag(id) {
+      deleteTag (id) {
         Tag.delete(id)
-            .then(() => {
-              const index = this.tags.findIndex(post => post.id === id)
-              if (~index)
-                this.tags.splice(index, 1)
-            })
-            .catch(e => {
-              alert(e)
-            })
-      },
+          .then(() => {
+            const index = this.tags.findIndex(post => post.id === id)
+            if (~index) { this.tags.splice(index, 1) }
+          })
+          .catch(e => {
+            alert(e)
+          })
+      }
     },
-    mounted() {
+    mounted () {
       this.retrieveTags()
 
       useHead({
-        title: computed(() => 'Admin - Tags | ' + process.env.VUE_APP_TITLE),
+        title: computed(() => 'Admin - Tags | ' + process.env.VUE_APP_TITLE)
       })
     }
   }

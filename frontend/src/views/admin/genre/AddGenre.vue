@@ -35,52 +35,52 @@
   import Genre from '@/services/genre'
   import { ErrorMessage, Field, Form as ValidationForm } from 'vee-validate'
   import * as yup from 'yup'
-  import { computed } from "vue"
-  import { useHead } from "@vueuse/head"
+  import { computed } from 'vue'
+  import { useHead } from '@vueuse/head'
 
   export default {
     components: {
       ValidationForm,
       Field,
-      ErrorMessage,
+      ErrorMessage
     },
-    data() {
+    data () {
       const schema = yup.object().shape({
         name: yup
-            .string()
-            .required('Name is required!')
-            .max(50, 'Must be maximum 50 characters!'),
+          .string()
+          .required('Name is required!')
+          .max(50, 'Must be maximum 50 characters!')
       })
 
       return {
         loading: false,
         message: '',
-        schema,
+        schema
       }
     },
     methods: {
-      saveGenre(genre) {
+      saveGenre (genre) {
         this.message = ''
         this.loading = true
 
         Genre.create(genre)
-            .then(() => {
-              this.$router.push({name: 'admin-genres'})
-            })
-            .catch(error => {
-              this.loading = false
-              this.message =
-                  (error.response &&
-                      error.response.data &&
-                      error.response.data.message) ||
-                  error.message ||
-                  error.toString()
-            })
-      },
+          .then(() => {
+            this.$router.push({ name: 'admin-genres' })
+          })
+          .catch(error => {
+            this.loading = false
+            this.message =
+              (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+              error.message ||
+              error.toString()
+          })
+      }
     },
-    mounted() {
+    mounted () {
       useHead({
-        title: computed(() => 'Admin - Add genre | ' + process.env.VUE_APP_TITLE),
+        title: computed(() => 'Admin - Add genre | ' + process.env.VUE_APP_TITLE)
       })
     }
   }

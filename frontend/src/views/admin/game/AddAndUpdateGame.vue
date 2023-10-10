@@ -245,8 +245,8 @@
   import Platform from '@/services/platform'
   import { ErrorMessage, Field, Form as ValidationForm } from 'vee-validate'
   import * as yup from 'yup'
-  import { computed } from "vue"
-  import { useHead } from "@vueuse/head"
+  import { computed } from 'vue'
+  import { useHead } from '@vueuse/head'
   import VueMultiselect from 'vue-multiselect'
 
   export default {
@@ -256,16 +256,16 @@
       ErrorMessage,
       VueMultiselect
     },
-    data() {
+    data () {
       const schema = yup.object().shape({
         title: yup
-            .string()
-            .required('Title is required!')
-            .max(50, 'Must be maximum 50 characters!'),
+          .string()
+          .required('Title is required!')
+          .max(50, 'Must be maximum 50 characters!'),
         rawgId: yup
-            .number('Must be a number!')
-            .required('Rawg id is required!')
-            .min(0),
+          .number('Must be a number!')
+          .required('Rawg id is required!')
+          .min(0)
       })
 
       return {
@@ -294,7 +294,7 @@
         screenshots: null,
         activeTab: 1,
         activeSS: 0,
-        gameId: 0,
+        gameId: 0
       }
     },
     methods: {
@@ -324,16 +324,16 @@
         this.ajaxLoading = true
 
         service.searchByName(query)
-            .then(response => {
-              this.ajaxLoading = false
-              this[result] = response.data
-            })
-            .catch(e => {
-              this.ajaxLoading = false
-              this.message = e
-            })
+          .then(response => {
+            this.ajaxLoading = false
+            this[result] = response.data
+          })
+          .catch(e => {
+            this.ajaxLoading = false
+            this.message = e
+          })
       },
-      submitForm(game) {
+      submitForm (game) {
         this.loading = true
         this.success = false
         this.message = ''
@@ -355,7 +355,7 @@
           this.updateGame(game)
         }
       },
-      saveGame(game) {
+      saveGame (game) {
         Game.create(game)
           .then(response => {
             this.gameId = response.data
@@ -373,95 +373,95 @@
               return
             }
 
-            let formData = new FormData()
-            formData.append("gameId", this.gameId)
+            const formData = new FormData()
+            formData.append('gameId', this.gameId)
 
             for (let i = 0; i < this.screenshots.length; i++) {
-              formData.append("screenshots", this.screenshots[i])
+              formData.append('screenshots', this.screenshots[i])
             }
 
             Game.uploadScreenshots(formData)
           })
           .then(() => {
-            this.$router.push({name: 'admin-games'})
+            this.$router.push({ name: 'admin-games' })
           })
           .catch(error => {
             this.loading = false
             this.message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString()
+              (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+              error.message ||
+              error.toString()
           })
       },
-      updateGame(game) {
+      updateGame (game) {
         this.uploadThumbnail.gameId = this.currentGame.id
 
         Game.update(this.currentGame.id, game)
-            .then(() => {
-              if (!this.uploadThumbnail.thumbnail) {
-                return
-              }
+          .then(() => {
+            if (!this.uploadThumbnail.thumbnail) {
+              return
+            }
 
-              Game.uploadThumbnail(this.uploadThumbnail)
-            })
-            .then(() => {
-              if (!this.screenshots) {
-                return
-              }
+            Game.uploadThumbnail(this.uploadThumbnail)
+          })
+          .then(() => {
+            if (!this.screenshots) {
+              return
+            }
 
-              let formData = new FormData()
-              formData.append("gameId", this.currentGame.id)
+            const formData = new FormData()
+            formData.append('gameId', this.currentGame.id)
 
-              for (let i = 0; i < this.screenshots.length; i++) {
-                formData.append("screenshots", this.screenshots[i])
-              }
+            for (let i = 0; i < this.screenshots.length; i++) {
+              formData.append('screenshots', this.screenshots[i])
+            }
 
-              Game.uploadScreenshots(formData)
-            })
-            .then(() => {
-              this.loading = false
-              this.success = true
-              this.message = 'The game was updated successfully!'
-            })
-            .catch(error => {
-              this.loading = false
-              this.success = false
-              this.message =
-                  (error.response &&
-                      error.response.data &&
-                      error.response.data.message) ||
-                  error.message ||
-                  error.toString()
-            })
+            Game.uploadScreenshots(formData)
+          })
+          .then(() => {
+            this.loading = false
+            this.success = true
+            this.message = 'The game was updated successfully!'
+          })
+          .catch(error => {
+            this.loading = false
+            this.success = false
+            this.message =
+              (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+              error.message ||
+              error.toString()
+          })
       },
-      getGame(id) {
+      getGame (id) {
         Game.get(id)
-            .then(response => {
-              this.currentGame = response.data
-              this.selectedTags = this.currentGame.tags
-              this.selectedGenres = this.currentGame.genres
-              this.selectedDevelopers = this.currentGame.developers
-              this.selectedPublishers = this.currentGame.publishers
-              this.selectedPlatforms = this.currentGame.platforms
+          .then(response => {
+            this.currentGame = response.data
+            this.selectedTags = this.currentGame.tags
+            this.selectedGenres = this.currentGame.genres
+            this.selectedDevelopers = this.currentGame.developers
+            this.selectedPublishers = this.currentGame.publishers
+            this.selectedPlatforms = this.currentGame.platforms
 
-              document.title = 'Admin - ' + this.currentGame.title + ' | ' + process.env.VUE_APP_TITLE
-            })
-            .catch(e => {
-              this.success = false
-              this.message = e
-            })
-      },
+            document.title = 'Admin - ' + this.currentGame.title + ' | ' + process.env.VUE_APP_TITLE
+          })
+          .catch(e => {
+            this.success = false
+            this.message = e
+          })
+      }
     },
-    mounted() {
+    mounted () {
       if (this.$route.params.id) {
         this.addPage = false
         this.mainTitle = 'Update'
         this.getGame(this.$route.params.id)
       } else {
         useHead({
-          title: computed(() => 'Admin - Add game | ' + process.env.VUE_APP_TITLE),
+          title: computed(() => 'Admin - Add game | ' + process.env.VUE_APP_TITLE)
         })
       }
     }

@@ -42,57 +42,57 @@
 <script>
   import { Form as ValidationForm, Field, ErrorMessage } from 'vee-validate'
   import * as yup from 'yup'
-  import { computed } from "vue"
-  import { useHead } from "@vueuse/head"
+  import { computed } from 'vue'
+  import { useHead } from '@vueuse/head'
 
   export default {
     name: 'LoginPage',
     components: {
       ValidationForm,
       Field,
-      ErrorMessage,
+      ErrorMessage
     },
-    data() {
+    data () {
       const schema = yup.object().shape({
         email: yup
-            .string()
-            .required('Email is required!')
-            .email('Email is invalid!'),
+          .string()
+          .required('Email is required!')
+          .email('Email is invalid!'),
         password: yup
-            .string()
-            .required('Password is required!'),
+          .string()
+          .required('Password is required!')
       })
 
       return {
         loading: false,
         message: '',
-        schema,
+        schema
       }
     },
     methods: {
-      handleLogin(user) {
+      handleLogin (user) {
         this.message = ''
         this.loading = true
 
         this.$store.dispatch('auth/login', user).then(
-            () => {
-              this.$router.push({name: 'profile'})
-            },
-            (error) => {
-              this.loading = false
-              this.message =
-                  (error.response &&
-                      error.response.data &&
-                      error.response.data.message) ||
-                  error.message ||
-                  error.toString()
-            }
+          () => {
+            this.$router.push({ name: 'profile' })
+          },
+          (error) => {
+            this.loading = false
+            this.message =
+              (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+              error.message ||
+              error.toString()
+          }
         )
-      },
+      }
     },
-    mounted() {
+    mounted () {
       useHead({
-        title: computed(() => 'Login | ' + process.env.VUE_APP_TITLE),
+        title: computed(() => 'Login | ' + process.env.VUE_APP_TITLE)
       })
     }
   }

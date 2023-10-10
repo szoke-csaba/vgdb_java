@@ -103,17 +103,17 @@
       ThemeSwitcher
     },
     computed: {
-      currentUser() {
+      currentUser () {
         return this.$store.state.auth.user
       },
-      isAdmin() {
+      isAdmin () {
         return this.$store.getters['auth/isAdmin']
       }
     },
     methods: {
-      logOut() {
+      logOut () {
         this.$store.dispatch('auth/logout')
-        this.$router.push({name: 'login'})
+        this.$router.push({ name: 'login' })
       }
     }
   }

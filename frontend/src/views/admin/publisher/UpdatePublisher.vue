@@ -35,7 +35,7 @@
 </template>
 
 <script>
-  import Publisher from "@/services/publisher"
+  import Publisher from '@/services/publisher'
   import { ErrorMessage, Field, Form as ValidationForm } from 'vee-validate'
   import * as yup from 'yup'
 
@@ -45,12 +45,12 @@
       Field,
       ErrorMessage
     },
-    data() {
+    data () {
       const schema = yup.object().shape({
         name: yup
-            .string()
-            .required('Name is required!')
-            .max(50, 'Must be maximum 50 characters!'),
+          .string()
+          .required('Name is required!')
+          .max(50, 'Must be maximum 50 characters!')
       })
 
       return {
@@ -63,41 +63,41 @@
       }
     },
     methods: {
-      getPublisher(id) {
+      getPublisher (id) {
         Publisher.get(id)
-            .then(response => {
-              this.currentPublisher = response.data
-              document.title = 'Admin - ' + this.currentPublisher.name + ' | ' + process.env.VUE_APP_TITLE
-            })
-            .catch(e => {
-              this.success = false
-              this.message = e
-            })
+          .then(response => {
+            this.currentPublisher = response.data
+            document.title = 'Admin - ' + this.currentPublisher.name + ' | ' + process.env.VUE_APP_TITLE
+          })
+          .catch(e => {
+            this.success = false
+            this.message = e
+          })
       },
-      updatePublisher() {
+      updatePublisher () {
         this.loading = true
         this.success = false
         this.message = ''
 
         Publisher.update(this.currentPublisher.id, this.currentPublisher)
-            .then(() => {
-              this.loading = false
-              this.success = true
-              this.message = 'The publisher was updated successfully!'
-            })
-            .catch(error => {
-              this.loading = false
-              this.success = false
-              this.message =
-                  (error.response &&
-                      error.response.data &&
-                      error.response.data.message) ||
-                  error.message ||
-                  error.toString()
-            })
-      },
+          .then(() => {
+            this.loading = false
+            this.success = true
+            this.message = 'The publisher was updated successfully!'
+          })
+          .catch(error => {
+            this.loading = false
+            this.success = false
+            this.message =
+              (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+              error.message ||
+              error.toString()
+          })
+      }
     },
-    mounted() {
+    mounted () {
       this.getPublisher(this.$route.params.id)
     }
   }

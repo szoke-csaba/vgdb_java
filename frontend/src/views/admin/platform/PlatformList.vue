@@ -42,45 +42,44 @@
 
 <script>
   import Platform from '@/services/platform'
-  import { computed } from "vue"
-  import { useHead } from "@vueuse/head"
+  import { computed } from 'vue'
+  import { useHead } from '@vueuse/head'
 
   export default {
-    data() {
+    data () {
       return {
         platforms: [],
         paging: [],
-        currentPage: this.$route.query.page,
+        currentPage: this.$route.query.page
       }
     },
     methods: {
-      retrievePlatforms() {
+      retrievePlatforms () {
         Platform.getAll(this.currentPage, process.env.VUE_APP_ADMIN_PAGE_SIZE)
-            .then(response => {
-              this.platforms = response.data.platforms
-              this.paging = response.data.paging
-            })
-            .catch(e => {
-              alert(e)
-            })
+          .then(response => {
+            this.platforms = response.data.platforms
+            this.paging = response.data.paging
+          })
+          .catch(e => {
+            alert(e)
+          })
       },
-      deletePlatform(id) {
+      deletePlatform (id) {
         Platform.delete(id)
-            .then(() => {
-              const index = this.platforms.findIndex(post => post.id === id)
-              if (~index)
-                this.platforms.splice(index, 1)
-            })
-            .catch(e => {
-              alert(e)
-            })
-      },
+          .then(() => {
+            const index = this.platforms.findIndex(post => post.id === id)
+            if (~index) { this.platforms.splice(index, 1) }
+          })
+          .catch(e => {
+            alert(e)
+          })
+      }
     },
-    mounted() {
+    mounted () {
       this.retrievePlatforms()
 
       useHead({
-        title: computed(() => 'Admin - Platforms | ' + process.env.VUE_APP_TITLE),
+        title: computed(() => 'Admin - Platforms | ' + process.env.VUE_APP_TITLE)
       })
     }
   }

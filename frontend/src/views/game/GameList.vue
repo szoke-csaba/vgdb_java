@@ -51,21 +51,21 @@
 </template>
 
 <script>
-  import { computed, nextTick, onMounted, ref } from "vue"
-  import { useHead } from "@vueuse/head"
+  import { computed, nextTick, onMounted, ref } from 'vue'
+  import { useHead } from '@vueuse/head'
   import Game from '@/services/game'
 
   export default {
-    data() {
+    data () {
       return {
         games: [],
         paging: [],
         currentPage: this.$route.query.page,
         searchQuery: '',
-        sort: '',
+        sort: ''
       }
     },
-    setup() {
+    setup () {
       const filter = ref(null)
 
       onMounted(() => {
@@ -79,28 +79,28 @@
       }
     },
     methods: {
-      searchGames() {
+      searchGames () {
         this.$router.push({ name: 'games', query: { query: this.searchQuery, sort: this.sort } })
       },
-      retrieveGames() {
+      retrieveGames () {
         Game.getAll(this.currentPage, process.env.VUE_APP_GAMES_PAGE_SIZE, this.searchQuery, this.sort)
-            .then(response => {
-              this.games = response.data.games
-              this.paging = response.data.paging
-            })
-            .catch(e => {
-              alert(e)
-            })
-      },
+          .then(response => {
+            this.games = response.data.games
+            this.paging = response.data.paging
+          })
+          .catch(e => {
+            alert(e)
+          })
+      }
     },
-    mounted() {
+    mounted () {
       this.searchQuery = this.$route.query.query
       this.sort = this.$route.query.sort ?? process.env.VUE_APP_SORT_DEFAULT
       this.retrieveGames()
 
       useHead({
-        title: computed(() => 'Games | ' + process.env.VUE_APP_TITLE),
+        title: computed(() => 'Games | ' + process.env.VUE_APP_TITLE)
       })
-    },
+    }
   }
 </script>
