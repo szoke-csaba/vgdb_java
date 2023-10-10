@@ -41,11 +41,7 @@ public class Game {
     private static final String DEFAULT_THUMBNAIL = "https://picsum.photos/400/225";
 
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "game_sequence"
-    )
-    @SequenceGenerator(name = "game_sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @NotBlank

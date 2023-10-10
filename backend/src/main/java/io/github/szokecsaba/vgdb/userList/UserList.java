@@ -18,11 +18,7 @@ import lombok.NoArgsConstructor;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class UserList {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "user_list_sequence"
-    )
-    @SequenceGenerator(name = "user_list_sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private UserListType type;

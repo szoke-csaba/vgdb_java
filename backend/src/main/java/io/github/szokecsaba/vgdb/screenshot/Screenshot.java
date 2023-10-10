@@ -15,11 +15,7 @@ public class Screenshot {
     private static final String SCREENSHOT_URL = "http://localhost:8081/api/images/games/screenshots/";
 
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "screenshot_sequence"
-    )
-    @SequenceGenerator(name = "screenshot_sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @NotBlank

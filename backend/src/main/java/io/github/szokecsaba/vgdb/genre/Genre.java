@@ -9,11 +9,7 @@ import lombok.Data;
 @Table(name = "genres")
 public class Genre {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "genre_sequence"
-    )
-    @SequenceGenerator(name = "genre_sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @NotBlank

@@ -28,11 +28,7 @@ import java.util.List;
 @NoArgsConstructor
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "user_sequence"
-    )
-    @SequenceGenerator(name = "user_sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Email

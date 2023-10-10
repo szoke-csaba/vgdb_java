@@ -15,11 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Vote {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "vote_sequence"
-    )
-    @SequenceGenerator(name = "vote_sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private int vote;
