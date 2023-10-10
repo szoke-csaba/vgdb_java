@@ -12,6 +12,9 @@ import io.github.szokecsaba.vgdb.screenshot.Screenshot;
 import io.github.szokecsaba.vgdb.tag.Tag;
 import io.github.szokecsaba.vgdb.userList.UserList;
 import io.github.szokecsaba.vgdb.vote.Vote;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,9 +23,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
 public class Game {
     private static final String LOCAL_DATE_TIME_DEFAULT_FORMAT = "yyyy-MM-dd HH:mm:ss";
     private static final String THUMBNAIL_URL = "http://localhost:8081/api/images/games/thumbnails/";
-    private static final String DEFAULT_THUMBNAIL = "https://placeimg.com/400/225/nature";
+    private static final String DEFAULT_THUMBNAIL = "https://picsum.photos/400/225";
 
     @Id
     @GeneratedValue(

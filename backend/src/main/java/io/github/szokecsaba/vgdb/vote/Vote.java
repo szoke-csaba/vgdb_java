@@ -3,11 +3,10 @@ package io.github.szokecsaba.vgdb.vote;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.szokecsaba.vgdb.game.Game;
 import io.github.szokecsaba.vgdb.user.User;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
 
 @Entity
 @Data

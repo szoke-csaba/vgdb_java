@@ -5,11 +5,11 @@ import io.github.szokecsaba.vgdb.game.GameNotFoundException;
 import io.github.szokecsaba.vgdb.game.GameRepository;
 import io.github.szokecsaba.vgdb.user.User;
 import io.github.szokecsaba.vgdb.user.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.Optional;
 
 import static io.github.szokecsaba.vgdb.game.GameService.GAME_NOT_FOUND;

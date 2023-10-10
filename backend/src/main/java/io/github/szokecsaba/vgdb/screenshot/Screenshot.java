@@ -1,11 +1,10 @@
 package io.github.szokecsaba.vgdb.screenshot;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 
 @Data
 @Entity
